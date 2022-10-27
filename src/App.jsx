@@ -1,6 +1,9 @@
 import { GlobalStyle } from 'components/GlobalStyle';
 import Services from 'components/Services';
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  // useState
+} from 'react';
 import { fetchServices } from 'services/API';
 
 export const App = () => {
@@ -9,6 +12,7 @@ export const App = () => {
   useEffect(() => {
     async function getServices() {
       const result = await fetchServices();
+      console.log('result', result);
     }
     getServices();
   }, []);
