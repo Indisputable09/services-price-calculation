@@ -1,9 +1,19 @@
-const Services = () => {
+import { FC } from 'react';
+import { IService } from '../../types/apiType';
+
+interface IProps {
+  services: IService[];
+}
+
+const Services: FC<IProps> = ({ services }): JSX.Element => {
   return (
     <>
       <p>Add service</p>
+      {services.map((service: IService) => {
+        return <p>{service.name}</p>;
+      })}
 
-      <label for="ice-cream-choice">Choose a flavor:</label>
+      <label htmlFor="ice-cream-choice">Choose a flavor:</label>
       <input
         list="ice-cream-flavors"
         id="ice-cream-choice"
