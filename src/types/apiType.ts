@@ -3,3 +3,8 @@ export interface IService {
   price: number;
   id: string;
 }
+
+export interface IpricesObject {
+  id: string;
+  price: number;
+}

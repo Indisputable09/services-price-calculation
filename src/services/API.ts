@@ -1,17 +1,17 @@
-// import axios from 'axios';
-
-// import { IService } from '../types/apiType';
+import { IService } from '../types/apiType';
 
 const BASE_URL = 'https://634d92dbf5d2cc648ea98ce0.mockapi.io/';
-// : Promise<IService[] | void>
-export async function fetchServices() {
+
+export async function fetchServices(): Promise<IService[] | void> {
   try {
     const response = await fetch(BASE_URL + 'services');
-    const result = await response.json();
+    const result = (await response.json()) as Promise<IService[]>;
     console.log('result', result);
     return result;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error) {
+      console.error(error);
+    }
   }
 }
 
