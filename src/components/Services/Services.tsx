@@ -1,15 +1,13 @@
 import { FC, useEffect, useState, ChangeEvent, MouseEvent } from 'react';
 import { fetchServices } from '../../services/API';
-import { IService } from '../../types/apiType';
-
-// interface IProps {
-//   services: IService[];
-// }
+import { IPrice, IService } from '../../types/apiType';
+import SelectedServices from '../SelectedServices';
+import ServicesList from '../ServicesList';
 
 const Services: FC = (): JSX.Element => {
   const [services, setServices] = useState<IService[]>([]);
   const [chosenServices, setChosenServices] = useState<IService[]>([]);
-  const [inputValue, setInputValue] = useState({});
+  const [inputValue, setInputValue] = useState<IPrice>({});
   const [showServicesList, setShowServicesList] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,8 +41,6 @@ const Services: FC = (): JSX.Element => {
     },
   };
 
-  console.log('inp ', inputValue);
-
   const buttonClickHandler = (e: MouseEvent<HTMLButtonElement>): void => {
     const serviceId = (e.target as HTMLButtonElement).id;
     const remainingServicess = services.filter(
@@ -76,43 +72,25 @@ const Services: FC = (): JSX.Element => {
     <>
       <p>Add service</p>
       <input
+        type="text"
         id="services"
         name="services"
         placeholder="Choose a service"
         {...inputEventsHandler}
       />
       {showServicesList && (
-        <div>
-          {services.map((service: IService) => {
-            return (
-              <button
-                key={service.id}
-                id={service.id}
-                type="button"
-                onClick={buttonClickHandler}
-              >
-                {service.name}, {service.price} USD
-              </button>
-            );
-          })}
-        </div>
+        <ServicesList
+          services={services}
+          buttonClickHandler={buttonClickHandler}
+        />
       )}
-      {chosenServices.length > 0 &&
-        chosenServices.map((service: IService) => {
-          console.log(inputValue);
-          return (
-            <p key={service.id}>
-              {service.name}
-              <span>Price, USD</span>
-              <input
-                name={service.id}
-                type="text"
-                value={inputValue[service.id]}
-                onChange={inputChangePriceHandler}
-              />
-            </p>
-          );
-        })}
+      {chosenServices.length > 0 && (
+        <SelectedServices
+          chosenServices={chosenServices}
+          inputChangePriceHandler={inputChangePriceHandler}
+          inputValue={inputValue}
+        />
+      )}
     </>
   );
 };
