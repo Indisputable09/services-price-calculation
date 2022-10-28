@@ -57,8 +57,8 @@ const Services: FC = (): JSX.Element => {
   };
 
   const inputChangePriceHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value;
-    const name = e.target.name;
+    const value: number = +e.target.value;
+    const name: string = e.target.name;
 
     setInputValue(prevValue => {
       return {
@@ -66,6 +66,19 @@ const Services: FC = (): JSX.Element => {
         [name]: value,
       };
     });
+  };
+
+  const deleteButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    const id = (e.target as HTMLButtonElement).name;
+    const remainingServices = chosenServices.filter(
+      service => service.id !== id
+    );
+    const deletedService = chosenServices.filter(service => service.id === id);
+    console.log('deletedService', deletedService);
+    setServices(prevValue => {
+      return [...prevValue, ...deletedService];
+    });
+    setChosenServices(remainingServices);
   };
 
   return (
@@ -78,18 +91,24 @@ const Services: FC = (): JSX.Element => {
         placeholder="Choose a service"
         {...inputEventsHandler}
       />
+
       {showServicesList && (
-        <ServicesList
-          services={services}
-          buttonClickHandler={buttonClickHandler}
-        />
+        <ul>
+          <ServicesList
+            services={services}
+            buttonClickHandler={buttonClickHandler}
+          />
+        </ul>
       )}
       {chosenServices.length > 0 && (
-        <SelectedServices
-          chosenServices={chosenServices}
-          inputChangePriceHandler={inputChangePriceHandler}
-          inputValue={inputValue}
-        />
+        <ul>
+          <SelectedServices
+            chosenServices={chosenServices}
+            inputChangePriceHandler={inputChangePriceHandler}
+            inputValue={inputValue}
+            deleteButtonClickHandler={deleteButtonClickHandler}
+          />
+        </ul>
       )}
     </>
   );

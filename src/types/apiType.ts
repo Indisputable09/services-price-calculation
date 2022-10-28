@@ -10,6 +10,7 @@ export interface ISelectedServicesProps {
   chosenServices: IService[];
   inputChangePriceHandler: (e: ChangeEvent<HTMLInputElement>) => void;
   inputValue: {};
+  deleteButtonClickHandler: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface IServicesListProps {

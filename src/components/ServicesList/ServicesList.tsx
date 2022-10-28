@@ -6,20 +6,17 @@ const ServicesList: FC<IServicesListProps> = ({
   buttonClickHandler,
 }): JSX.Element => {
   return (
-    <div>
+    <>
       {services.map((service: IService) => {
         return (
-          <button
-            key={service.id}
-            id={service.id}
-            type="button"
-            onClick={buttonClickHandler}
-          >
-            {service.name}, {service.price} USD
-          </button>
+          <li key={service.id}>
+            <button id={service.id} type="button" onClick={buttonClickHandler}>
+              {service.name}, {service.price} USD
+            </button>
+          </li>
         );
       })}
-    </div>
+    </>
   );
 };
 

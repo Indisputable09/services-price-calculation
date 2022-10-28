@@ -5,21 +5,31 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
   chosenServices,
   inputChangePriceHandler,
   inputValue,
+  deleteButtonClickHandler,
 }): JSX.Element => {
   return (
     <>
       {chosenServices.map((service: IService) => {
         return (
-          <p key={service.id}>
-            {service.name}
-            <span>Price, USD</span>
-            <input
+          <li key={service.id}>
+            <button
+              onClick={deleteButtonClickHandler}
+              type="button"
               name={service.id}
-              type="number"
-              value={inputValue[service.id]}
-              onChange={inputChangePriceHandler}
-            />
-          </p>
+            >
+              Delete
+            </button>
+            <p>
+              {service.name}
+              <span>Price, USD</span>
+              <input
+                name={service.id}
+                type="number"
+                value={inputValue[service.id]}
+                onChange={inputChangePriceHandler}
+              />
+            </p>
+          </li>
         );
       })}
     </>
