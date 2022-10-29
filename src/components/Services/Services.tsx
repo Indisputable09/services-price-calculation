@@ -62,7 +62,7 @@ const Services: FC = (): JSX.Element => {
       setShowServicesList(false);
     }
   };
-  console.log('prices ', prices);
+
   const inputChangePriceHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     const value: number = +e.target.value;
     const name: string = e.target.name;

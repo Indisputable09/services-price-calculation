@@ -31,3 +31,16 @@ export interface IBillProps {
   chosenServices: IService[];
   prices: IPrice;
 }
+
+// export interface IDiscountType {
+//   discountType: string;
+//   [key: string]: number;
+// }
+
+export interface IPriceWithDiscount {
+  [key: string]: number | string;
+}
+
+export interface IDiscountBlockProps {
+  pricesWithDiscount: IPriceWithDiscount[];
+}
