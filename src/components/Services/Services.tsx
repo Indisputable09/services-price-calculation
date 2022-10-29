@@ -1,6 +1,7 @@
 import { FC, useEffect, useState, ChangeEvent, MouseEvent } from 'react';
 import { fetchServices } from '../../services/API';
 import { IPrice, IService } from '../../types/apiType';
+import Bill from '../Bill';
 import SelectedServices from '../SelectedServices';
 import ServicesDiscount from '../ServicesDiscount';
 import ServicesList from '../ServicesList';
@@ -130,6 +131,7 @@ const Services: FC = (): JSX.Element => {
           />
         </ul>
       )}
+      <Bill chosenServices={chosenServices} prices={prices} />
       <ServicesDiscount chosenServices={chosenServices} prices={prices} />
     </>
   );

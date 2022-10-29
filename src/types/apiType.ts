@@ -15,7 +15,7 @@ export interface ISelectedServicesProps {
 
 export interface IServicesListProps {
   services: IService[];
-  buttonClickHandler: (e: MouseEvent<HTMLButtonElement>) => void;
+  buttonClickHandler?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export interface IPrice {
@@ -23,6 +23,11 @@ export interface IPrice {
 }
 
 export interface IServiceDiscountProps {
+  chosenServices: IService[];
+  prices: IPrice;
+}
+
+export interface IBillProps {
   chosenServices: IService[];
   prices: IPrice;
 }
