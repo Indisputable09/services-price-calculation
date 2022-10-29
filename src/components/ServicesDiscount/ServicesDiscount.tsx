@@ -4,6 +4,7 @@ import {
   IService,
   IServiceDiscountProps,
 } from '../../types/apiType';
+import Bill from '../Bill';
 import DiscountBlock from '../DiscountBlock';
 // import ServicesList from '../ServicesList';
 
@@ -12,6 +13,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   prices,
 }): JSX.Element => {
   const [sum, setSum] = useState<number>(0);
+  //   const [total, setTotal] = useState<number>(0);
   const [showDiscountsBlock, setShowDiscountsBlock] = useState<boolean>(false);
   const [servicesForDiscount, setServicesForDiscount] = useState<IService[]>(
     []
@@ -20,10 +22,18 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     useState<boolean>(false);
   const [discountValue, setDiscountValue] = useState<number>(0);
   const [discountServiceTitle, setDiscountServiceTitle] = useState<string>('');
+  const [discountServiceId, setDiscountServiceId] = useState<string>('');
   const [discountType, setDiscountType] = useState<string>('');
-  const [pricesWithDiscount, setPricesWithDiscount] = useState<
+  const [servicesWithDiscount, setServicesWithDiscount] = useState<
     IPriceWithDiscount[]
   >([]);
+
+  //   useEffect(() => {
+  //     servicesWithDiscount.map(item => {
+  //       console.log('item', item);
+  //       console.log('servicesWithDiscount', servicesWithDiscount);
+  //     });
+  //   }, [servicesWithDiscount]);
 
   useEffect(() => {
     const values = Object.values(prices);
@@ -35,7 +45,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
 
   useEffect(() => {
     const test = chosenServices.filter(service => {
-      const [serviceToRemove] = pricesWithDiscount.filter(item => {
+      const [serviceToRemove] = servicesWithDiscount.filter(item => {
         return item.name === service.name;
       });
       if (!serviceToRemove) {
@@ -45,7 +55,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     });
     // chosenServices = test;
     setServicesForDiscount(test);
-  }, [chosenServices, pricesWithDiscount]);
+  }, [chosenServices, servicesWithDiscount]);
 
   const handleShowDiscountBlockClick = (): void => {
     setShowDiscountsBlock(!showDiscountsBlock);
@@ -68,6 +78,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     e: MouseEvent<HTMLButtonElement>
   ): void => {
     setDiscountServiceTitle((e.target as HTMLButtonElement).name);
+    setDiscountServiceId((e.target as HTMLButtonElement).id);
     setShowServicesForDiscount(false);
   };
 
@@ -76,29 +87,37 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   };
 
   const handleApplyClick = (): void => {
-    setPricesWithDiscount(prevState => {
+    setServicesWithDiscount(prevState => {
       return [
         ...prevState,
         {
           discountValue,
           discount_type: discountType,
           name: discountServiceTitle,
+          without_discount: prices[discountServiceId],
         },
       ];
     });
     //   [discountServiceTitle]: discountValue,
     setDiscountServiceTitle('');
+    setDiscountServiceId('');
     setDiscountValue(0);
     setDiscountType('');
   };
-  console.log('Hello ', pricesWithDiscount);
+  //   console.log('servicesWithDiscount ', servicesWithDiscount);
+  //   console.log('prices ', prices);
   return (
     <>
       {chosenServices.length > 0 && (
         <>
+          <Bill
+            chosenServices={chosenServices}
+            prices={prices}
+            pricesWithDiscount={servicesWithDiscount}
+          />
           <h2>Add Discount</h2>
-          {pricesWithDiscount.length > 0 && (
-            <DiscountBlock pricesWithDiscount={pricesWithDiscount} />
+          {servicesWithDiscount.length > 0 && (
+            <DiscountBlock pricesWithDiscount={servicesWithDiscount} />
           )}
           <button type="button" onClick={handleShowDiscountBlockClick}>
             Add
@@ -111,7 +130,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           id="services-for-discount"
           name="services-for-discount"
           placeholder="Choose a service"
-          //   defaultValue={discountServiceTitle}
           readOnly
           value={discountServiceTitle}
           {...inputEventsHandler}
@@ -145,6 +163,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
                   onClick={handleServiceForDiscountClick}
                   type="button"
                   name={service.name}
+                  id={service.id}
                 >
                   {service.name}
                 </button>
