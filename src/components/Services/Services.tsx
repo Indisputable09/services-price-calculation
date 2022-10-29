@@ -2,6 +2,7 @@ import { FC, useEffect, useState, ChangeEvent, MouseEvent } from 'react';
 import { fetchServices } from '../../services/API';
 import { IPrice, IService } from '../../types/apiType';
 import SelectedServices from '../SelectedServices';
+import ServicesDiscount from '../ServicesDiscount';
 import ServicesList from '../ServicesList';
 
 const Services: FC = (): JSX.Element => {
@@ -60,6 +61,10 @@ const Services: FC = (): JSX.Element => {
     const value: number = +e.target.value;
     const name: string = e.target.name;
 
+    // const neededService = chosenServices.find(service => {
+    //   return service.id === name;
+    // });
+
     setInputValue(prevValue => {
       return {
         ...prevValue,
@@ -110,6 +115,7 @@ const Services: FC = (): JSX.Element => {
           />
         </ul>
       )}
+      <ServicesDiscount chosenServices={chosenServices} />
     </>
   );
 };

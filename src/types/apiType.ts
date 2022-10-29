@@ -21,3 +21,8 @@ export interface IServicesListProps {
 export interface IPrice {
   [key: number]: number;
 }
+
+export interface IServiceDiscountProps {
+  chosenServices: IService[];
+  // sum: number;
+}
