@@ -1,19 +1,23 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { IServiceDiscountProps } from '../../types/apiType';
 
 const ServicesDiscount: FC<IServiceDiscountProps> = ({
   chosenServices,
-  //   sum,
+  prices,
 }): JSX.Element => {
+  const [sum, setSum] = useState<number>(0);
+  useEffect(() => {
+    const values = Object.values(prices);
+    const result = values.reduce((acc, value) => {
+      return (acc += value);
+    }, 0);
+    setSum(result);
+  }, [prices, chosenServices]);
+
   return (
     <>
       {chosenServices.length > 0 && <h2>Add Discount</h2>}
-      <p>
-        Sum:
-        {/* {chosenServices.reduce((acc, item) => {
-          return (acc += item.price);
-        }, 0)} */}
-      </p>
+      <p>Sum: {sum}</p>
       <p>Total: </p>
     </>
   );

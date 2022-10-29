@@ -10,6 +10,7 @@ const Services: FC = (): JSX.Element => {
   const [chosenServices, setChosenServices] = useState<IService[]>([]);
   const [inputValue, setInputValue] = useState<IPrice>({});
   const [showServicesList, setShowServicesList] = useState<boolean>(false);
+  const [prices, setPrices] = useState<IPrice>({});
 
   useEffect(() => {
     async function getServices(): Promise<void> {
@@ -53,10 +54,14 @@ const Services: FC = (): JSX.Element => {
       setChosenServices(
         preServices => [...preServices, chosenService] as IService[]
       );
+      // {1(id): 92(price) }
+      setPrices(prevPrices => {
+        return { ...prevPrices, [chosenService.id]: chosenService.price };
+      });
       setShowServicesList(false);
     }
   };
-
+  console.log('prices ', prices);
   const inputChangePriceHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     const value: number = +e.target.value;
     const name: string = e.target.name;
@@ -64,6 +69,13 @@ const Services: FC = (): JSX.Element => {
     // const neededService = chosenServices.find(service => {
     //   return service.id === name;
     // });
+
+    setPrices(prevValue => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
 
     setInputValue(prevValue => {
       return {
@@ -79,7 +91,10 @@ const Services: FC = (): JSX.Element => {
       service => service.id !== id
     );
     const deletedService = chosenServices.filter(service => service.id === id);
-    console.log('deletedService', deletedService);
+    // const remainingPrices = delete prices[deletedService[0].id];
+    // console.log('remainingPrices', remainingPrices);
+    const pricesKey = deletedService[0].id;
+    delete prices[pricesKey];
     setServices(prevValue => {
       return [...prevValue, ...deletedService];
     });
@@ -115,7 +130,7 @@ const Services: FC = (): JSX.Element => {
           />
         </ul>
       )}
-      <ServicesDiscount chosenServices={chosenServices} />
+      <ServicesDiscount chosenServices={chosenServices} prices={prices} />
     </>
   );
 };

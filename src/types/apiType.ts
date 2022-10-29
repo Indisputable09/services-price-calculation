@@ -24,5 +24,5 @@ export interface IPrice {
 
 export interface IServiceDiscountProps {
   chosenServices: IService[];
-  // sum: number;
+  prices: IPrice;
 }
