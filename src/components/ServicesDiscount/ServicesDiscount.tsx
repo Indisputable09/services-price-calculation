@@ -94,18 +94,16 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           discountValue,
           discount_type: discountType,
           name: discountServiceTitle,
-          without_discount: prices[discountServiceId],
+          id: discountServiceId,
         },
       ];
     });
-    //   [discountServiceTitle]: discountValue,
     setDiscountServiceTitle('');
     setDiscountServiceId('');
     setDiscountValue(0);
     setDiscountType('');
   };
-  //   console.log('servicesWithDiscount ', servicesWithDiscount);
-  //   console.log('prices ', prices);
+
   return (
     <>
       {chosenServices.length > 0 && (
