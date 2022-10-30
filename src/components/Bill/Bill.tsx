@@ -1,53 +1,22 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { IBillProps, IPriceWithDiscount, IService } from '../../types/apiType';
 
 const Bill: FC<IBillProps> = ({
   chosenServices,
   prices,
-  servicesWithDiscount,
+  servicesForDiscount,
   // getPriceForTotal,
 }): JSX.Element => {
-  // const [pricesWithDiscount, setPricesWithDiscount] =
-  //   useState<IPriceWithDiscount>({});
-  // const [test, setTest] = useState<boolean>(false);
+  const [pricesWithDiscount, setPricesWithDiscount] =
+    useState<IPriceWithDiscount>({});
+  console.log('pricesWithDiscount', pricesWithDiscount);
 
-  // useEffect(() => {
-  //   if (pricesWithDiscount) {
-  //     getPriceForTotal(pricesWithDiscount);
-  //   }
-  // }, [getPriceForTotal, pricesWithDiscount]);
-
-  // const handleDiscountsSet = (
-  //   { id }: IService,
-  //   { discountValue, discount_type, name }: IPriceWithDiscount
-  // ) => {
-  //   const resultWithPercent =
-  //     Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
-  //   const resultWithCurrency = Number(prices[id]) - Number(discountValue);
-  //   // const percentDiscount = `${discount_type}(${
-  //   //   (Number(prices[id]) * Number(discountValue)) / 100
-  //   // } USD) = ${resultWithPercent.toFixed(2)}`;
-  //   // const currencyDiscount = `= ${resultWithCurrency.toFixed(2)}`;
-
-  //   switch (discount_type) {
-  //     case '%':
-  //       console.log('%');
-  //       setPricesWithDiscount(prevState => {
-  //         return { ...prevState, [id]: resultWithPercent };
-  //       });
-  //       break;
-  //     default:
-  //       console.log('USD');
-  //       setPricesWithDiscount(prevState => {
-  //         return { ...prevState, [id]: resultWithCurrency };
-  //       });
-  //   }
-  // };
-
-  const handleDiscountCount = (
-    { id }: IService,
-    { discountValue, discount_type, name }: IPriceWithDiscount
-  ): JSX.Element => {
+  const handleDiscountCount = ({
+    discountValue,
+    discount_type,
+    name,
+    id,
+  }: IPriceWithDiscount): JSX.Element => {
     const resultWithPercent =
       Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
     const resultWithCurrency = Number(prices[id]) - Number(discountValue);
@@ -56,18 +25,6 @@ const Bill: FC<IBillProps> = ({
     } USD) = ${resultWithPercent.toFixed(2)}`;
     const currencyDiscount = `= ${resultWithCurrency.toFixed(2)}`;
 
-    // switch (discount_type) {
-    //   case '%':
-    //     setPricesWithDiscount(prevState => {
-    //       return { ...prevState, [id]: resultWithPercent };
-    //     });
-    //     break;
-    //   default:
-    //     setPricesWithDiscount(prevState => {
-    //       return { ...prevState, [id]: resultWithCurrency };
-    //     });
-    // }
-
     return (
       <span key={name}>
         -{discountValue}{' '}
@@ -75,6 +32,38 @@ const Bill: FC<IBillProps> = ({
       </span>
     );
   };
+
+  useEffect(() => {
+    const servicesWithDiscount = servicesForDiscount.filter(item => {
+      const chosenService = chosenServices.filter(service => {
+        return service.id === item.id;
+      });
+      if (chosenService) {
+        return item.id === chosenService[0].id;
+      } else {
+        return false;
+      }
+    });
+    if (servicesWithDiscount.length === 0) {
+      return;
+    }
+    servicesWithDiscount.forEach(({ id, discountValue, discount_type }) => {
+      const resultWithPercent =
+        Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
+      const resultWithCurrency = Number(prices[id]) - Number(discountValue);
+      switch (discount_type) {
+        case '%':
+          setPricesWithDiscount(prevState => {
+            return { ...prevState, [id]: +resultWithPercent.toFixed(2) };
+          });
+          break;
+        default:
+          setPricesWithDiscount(prevState => {
+            return { ...prevState, [id]: +resultWithCurrency.toFixed(2) };
+          });
+      }
+    });
+  }, [chosenServices, prices, servicesForDiscount]);
 
   return (
     <>
@@ -85,12 +74,11 @@ const Bill: FC<IBillProps> = ({
             <p>
               {service.name}{' '}
               <span>{prices[service.id] === 0 ? 0 : prices[service.id]}</span>{' '}
-              {servicesWithDiscount &&
-                servicesWithDiscount
+              {servicesForDiscount &&
+                servicesForDiscount
                   .filter(item => item.id === service.id)
                   .map(item => {
-                    // handleDiscountsSet(service, item);
-                    return handleDiscountCount(service, item);
+                    return handleDiscountCount(item);
                   })}
             </p>
           </li>

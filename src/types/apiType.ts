@@ -30,7 +30,7 @@ export interface IServiceDiscountProps {
 export interface IBillProps {
   chosenServices: IService[];
   prices: IPrice;
-  servicesWithDiscount: IPriceWithDiscount[];
+  servicesForDiscount: IPriceWithDiscount[];
   // getPriceForTotal: (element: IPriceWithDiscount) => void;
 }
 

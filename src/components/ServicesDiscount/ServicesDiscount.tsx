@@ -113,7 +113,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           <Bill
             chosenServices={chosenServices}
             prices={prices}
-            servicesWithDiscount={servicesWithDiscount}
+            servicesForDiscount={servicesWithDiscount}
             // getPriceForTotal={getPriceForTotal}
           />
           <h2>Add Discount</h2>
