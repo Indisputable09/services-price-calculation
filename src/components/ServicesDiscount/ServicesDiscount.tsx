@@ -28,13 +28,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     IPriceWithDiscount[]
   >([]);
 
-  //   useEffect(() => {
-  //     servicesWithDiscount.map(item => {
-  //       console.log('item', item);
-  //       console.log('servicesWithDiscount', servicesWithDiscount);
-  //     });
-  //   }, [servicesWithDiscount]);
-
   useEffect(() => {
     const values = Object.values(prices);
     const result = values.reduce((acc, value) => {
@@ -53,7 +46,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
       }
       return service.name !== serviceToRemove.name;
     });
-    // chosenServices = test;
     setServicesForDiscount(test);
   }, [chosenServices, servicesWithDiscount]);
 
@@ -103,6 +95,16 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     setDiscountValue(0);
     setDiscountType('');
   };
+  // (element: IPriceWithDiscount): void => {
+  //   console.log('element ', element);
+  // };
+  //   const getPriceForTotal = useCallback((element: IPriceWithDiscount) => {
+  //     console.log('object');
+  //   }, []);
+
+  // const triggerChange = useCallback(() => {
+  //   console.log('call api');
+  // }, []);
 
   return (
     <>
@@ -111,7 +113,8 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           <Bill
             chosenServices={chosenServices}
             prices={prices}
-            pricesWithDiscount={servicesWithDiscount}
+            servicesWithDiscount={servicesWithDiscount}
+            // getPriceForTotal={getPriceForTotal}
           />
           <h2>Add Discount</h2>
           {servicesWithDiscount.length > 0 && (
@@ -153,7 +156,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
       </div>
       {showServicesForDiscount && (
         <ul>
-          {/* chosenServices */}
           {servicesForDiscount.map((service: IService) => {
             return (
               <li key={service.id}>

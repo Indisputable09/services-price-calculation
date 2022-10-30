@@ -4,22 +4,69 @@ import { IBillProps, IPriceWithDiscount, IService } from '../../types/apiType';
 const Bill: FC<IBillProps> = ({
   chosenServices,
   prices,
-  pricesWithDiscount,
+  servicesWithDiscount,
+  // getPriceForTotal,
 }): JSX.Element => {
+  // const [pricesWithDiscount, setPricesWithDiscount] =
+  //   useState<IPriceWithDiscount>({});
+  // const [test, setTest] = useState<boolean>(false);
+
+  // useEffect(() => {
+  //   if (pricesWithDiscount) {
+  //     getPriceForTotal(pricesWithDiscount);
+  //   }
+  // }, [getPriceForTotal, pricesWithDiscount]);
+
+  // const handleDiscountsSet = (
+  //   { id }: IService,
+  //   { discountValue, discount_type, name }: IPriceWithDiscount
+  // ) => {
+  //   const resultWithPercent =
+  //     Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
+  //   const resultWithCurrency = Number(prices[id]) - Number(discountValue);
+  //   // const percentDiscount = `${discount_type}(${
+  //   //   (Number(prices[id]) * Number(discountValue)) / 100
+  //   // } USD) = ${resultWithPercent.toFixed(2)}`;
+  //   // const currencyDiscount = `= ${resultWithCurrency.toFixed(2)}`;
+
+  //   switch (discount_type) {
+  //     case '%':
+  //       console.log('%');
+  //       setPricesWithDiscount(prevState => {
+  //         return { ...prevState, [id]: resultWithPercent };
+  //       });
+  //       break;
+  //     default:
+  //       console.log('USD');
+  //       setPricesWithDiscount(prevState => {
+  //         return { ...prevState, [id]: resultWithCurrency };
+  //       });
+  //   }
+  // };
+
   const handleDiscountCount = (
     { id }: IService,
     { discountValue, discount_type, name }: IPriceWithDiscount
   ): JSX.Element => {
     const resultWithPercent =
       Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
-
     const resultWithCurrency = Number(prices[id]) - Number(discountValue);
-
     const percentDiscount = `${discount_type}(${
       (Number(prices[id]) * Number(discountValue)) / 100
-    } USD) = ${resultWithPercent}`;
+    } USD) = ${resultWithPercent.toFixed(2)}`;
+    const currencyDiscount = `= ${resultWithCurrency.toFixed(2)}`;
 
-    const currencyDiscount = `= ${resultWithCurrency}`;
+    // switch (discount_type) {
+    //   case '%':
+    //     setPricesWithDiscount(prevState => {
+    //       return { ...prevState, [id]: resultWithPercent };
+    //     });
+    //     break;
+    //   default:
+    //     setPricesWithDiscount(prevState => {
+    //       return { ...prevState, [id]: resultWithCurrency };
+    //     });
+    // }
 
     return (
       <span key={name}>
@@ -38,10 +85,11 @@ const Bill: FC<IBillProps> = ({
             <p>
               {service.name}{' '}
               <span>{prices[service.id] === 0 ? 0 : prices[service.id]}</span>{' '}
-              {pricesWithDiscount &&
-                pricesWithDiscount
+              {servicesWithDiscount &&
+                servicesWithDiscount
                   .filter(item => item.id === service.id)
                   .map(item => {
+                    // handleDiscountsSet(service, item);
                     return handleDiscountCount(service, item);
                   })}
             </p>
@@ -54,12 +102,29 @@ const Bill: FC<IBillProps> = ({
 
 export default Bill;
 
-/*{item.discount_type === '%'
-                        ? `${
-                            Number(prices[service.id]) -
-                            (Number(prices[service.id]) *
-                              Number(item.discountValue)) /
-                              100
-                          }`
-                        : Number(prices[service.id]) -
-                          Number(item.discountValue)} */
+// if (discount_type === '%') {
+//   setPricesWithDiscount(prevState => {
+//     return { ...prevState, [id]: resultWithPercent };
+//   });
+// } else {
+//   setPricesWithDiscount(prevState => {
+//     return { ...prevState, [id]: resultWithCurrency };
+//   });
+// }
+// switch (discount_type) {
+//   case '%':
+// setPricesWithDiscount(prevState => {
+//   return { ...prevState, [id]: resultWithPercent };
+// });
+//     break;
+//   default:
+// setPricesWithDiscount(prevState => {
+//   return { ...prevState, [id]: resultWithCurrency };
+// });
+// }
+
+/*
+if (discount_type === '%') {
+    } else if (discount_type === 'USD') {
+      return currencyDiscount;
+    } */
