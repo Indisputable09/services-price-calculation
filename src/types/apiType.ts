@@ -31,7 +31,7 @@ export interface IBillProps {
   chosenServices: IService[];
   prices: IPrice;
   servicesForDiscount: IPriceWithDiscount[];
-  // getPriceForTotal: (element: IPriceWithDiscount) => void;
+  getPriceForTotal: (res: number) => void;
 }
 
 // export interface IDiscountType {
@@ -41,6 +41,10 @@ export interface IBillProps {
 
 export interface IPriceWithDiscount {
   [key: string]: number | string;
+}
+
+export interface IDiscountPrices {
+  [key: string]: number;
 }
 
 export interface IDiscountBlockProps {

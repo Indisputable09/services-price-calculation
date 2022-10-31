@@ -13,7 +13,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   prices,
 }): JSX.Element => {
   const [sum, setSum] = useState<number>(0);
-  //   const [total, setTotal] = useState<number>(0);
+  const [total, setTotal] = useState<number>(0);
   const [showDiscountsBlock, setShowDiscountsBlock] = useState<boolean>(false);
   const [servicesForDiscount, setServicesForDiscount] = useState<IService[]>(
     []
@@ -95,16 +95,10 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     setDiscountValue(0);
     setDiscountType('');
   };
-  // (element: IPriceWithDiscount): void => {
-  //   console.log('element ', element);
-  // };
-  //   const getPriceForTotal = useCallback((element: IPriceWithDiscount) => {
-  //     console.log('object');
-  //   }, []);
 
-  // const triggerChange = useCallback(() => {
-  //   console.log('call api');
-  // }, []);
+  const getPriceForTotal = (res: number): void => {
+    setTotal(res);
+  };
 
   return (
     <>
@@ -114,7 +108,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
             chosenServices={chosenServices}
             prices={prices}
             servicesForDiscount={servicesWithDiscount}
-            // getPriceForTotal={getPriceForTotal}
+            getPriceForTotal={getPriceForTotal}
           />
           <h2>Add Discount</h2>
           {servicesWithDiscount.length > 0 && (
@@ -142,7 +136,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           id="discount"
           name="discount"
           placeholder="0"
-          //   defaultValue="0"
           value={discountValue}
           onChange={handleInputChange}
         />
@@ -176,7 +169,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
         Apply discount
       </button>
       <p>Sum: {sum}</p>
-      <p>Total: </p>
+      <p>Total: {total}</p>
     </>
   );
 };
