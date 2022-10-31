@@ -1,5 +1,8 @@
 import { FC } from 'react';
 import { IService, IServicesListProps } from '../../types/apiType';
+import styles from '../../styles/ServicesList.module.scss';
+
+const { servicesList__button } = styles;
 
 const ServicesList: FC<IServicesListProps> = ({
   services,
@@ -10,7 +13,12 @@ const ServicesList: FC<IServicesListProps> = ({
       {services.map((service: IService) => {
         return (
           <li key={service.id}>
-            <button id={service.id} type="button" onClick={buttonClickHandler}>
+            <button
+              className={servicesList__button}
+              id={service.id}
+              type="button"
+              onClick={buttonClickHandler}
+            >
               {service.name}, {service.price} USD
             </button>
           </li>

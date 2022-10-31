@@ -1,0 +1,41 @@
+.chosenServices__block {
+  margin-top: 10px;
+  background-color: rgb(237, 235, 235);
+  padding: 15px;
+}
+
+.services__text {
+  margin: 0 0 10px 0;
+}
+
+.chosenServices__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.chosenServices__item__block {
+  display: flex;
+  align-items: center;
+}
+
+.chosenServices__item__input {
+  width: 60px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 5px;
+  outline: none;
+  margin-left: 10px;
+
+  &:focus {
+    border: 2px solid black;
+  }
+}
+
+.chosenServices__item__serviceName {
+  margin-left: 5px;
+}

@@ -83,22 +83,24 @@ const Bill: FC<IBillProps> = ({
   return (
     <>
       <h2>Bill</h2>
-      {chosenServices.map((service: IService): JSX.Element => {
-        return (
-          <li key={service.id}>
-            <p>
-              {service.name}{' '}
-              <span>{prices[service.id] === 0 ? 0 : prices[service.id]}</span>{' '}
-              {servicesForDiscount &&
-                servicesForDiscount
-                  .filter(item => item.id === service.id)
-                  .map(item => {
-                    return handleDiscountCount(item);
-                  })}
-            </p>
-          </li>
-        );
-      })}
+      <ul>
+        {chosenServices.map((service: IService): JSX.Element => {
+          return (
+            <li key={service.id}>
+              <p>
+                {service.name}{' '}
+                <span>{prices[service.id] === 0 ? 0 : prices[service.id]}</span>{' '}
+                {servicesForDiscount &&
+                  servicesForDiscount
+                    .filter(item => item.id === service.id)
+                    .map(item => {
+                      return handleDiscountCount(item);
+                    })}
+              </p>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 };
