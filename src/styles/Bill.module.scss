@@ -1,14 +1,14 @@
-.bill_block {
+.bill__block {
   margin-top: 10px;
   background-color: rgb(237, 235, 235);
   padding: 15px;
 }
 
-.bill_text {
+.bill__text {
   margin: 0 0 10px 0;
 }
 
-.bill_block_item {
+.bill__block__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,10 +18,10 @@
   }
 }
 
-.bill_price_block {
+.bill__price__block {
   font-size: 10px;
 }
 
-.bill_price_nodiscount {
+.bill__price__noDiscount {
   text-align: right;
 }

@@ -8,11 +8,11 @@ import {
 import styles from '../../styles/Bill.module.scss';
 
 const {
-  bill_block,
-  bill_text,
-  bill_block_item,
-  bill_price_block,
-  bill_price_nodiscount,
+  bill__block,
+  bill__text,
+  bill__block__item,
+  bill__price__block,
+  bill__price__noDiscount,
 } = styles;
 
 const Bill: FC<IBillProps> = ({
@@ -100,12 +100,12 @@ const Bill: FC<IBillProps> = ({
   }, [getPriceForTotal, pricesWithDiscount]);
 
   return (
-    <div className={bill_block}>
-      <h4 className={bill_text}>Bill</h4>
+    <div className={bill__block}>
+      <h4 className={bill__text}>Bill</h4>
       <ul>
         {chosenServices.map((service: IService): JSX.Element => {
           return (
-            <li key={service.id} className={bill_block_item}>
+            <li key={service.id} className={bill__block__item}>
               <p>
                 {service.name}{' '}
                 {/* <p>{prices[service.id] === 0 ? 0 : prices[service.id]} USD</p>{' '} */}
@@ -116,8 +116,8 @@ const Bill: FC<IBillProps> = ({
                       return handleDiscountCount(item);
                     })} */}
               </p>
-              <div className={bill_price_block}>
-                <p className={bill_price_nodiscount}>
+              <div className={bill__price__block}>
+                <p className={bill__price__noDiscount}>
                   {prices[service.id] === 0 ? 0 : prices[service.id]} USD
                 </p>
                 {servicesForDiscount &&
