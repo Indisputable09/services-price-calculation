@@ -39,3 +39,15 @@
 .chosenServices__item__serviceName {
   margin-left: 5px;
 }
+
+.chosenServices__item__deleteButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.chosenServices__item__deleteButtonIcon {
+  width: 18px;
+  height: 18px;
+}

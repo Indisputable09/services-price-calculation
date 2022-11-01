@@ -99,7 +99,7 @@ export const App: FC = (): JSX.Element => {
   };
 
   const deleteButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    const id = (e.target as HTMLButtonElement).name;
+    const id = (e.currentTarget as HTMLButtonElement).name;
     const remainingServices = chosenServices.filter(
       service => service.id !== id
     );

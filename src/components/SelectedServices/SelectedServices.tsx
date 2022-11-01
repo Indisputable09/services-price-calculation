@@ -10,6 +10,8 @@ const {
   chosenServices__item__input,
   chosenServices__item__serviceName,
   chosenServices__item__block,
+  chosenServices__item__deleteButton,
+  chosenServices__item__deleteButtonIcon,
 } = styles;
 
 const SelectedServices: FC<ISelectedServicesProps> = ({
@@ -29,8 +31,9 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
                 onClick={deleteButtonClickHandler}
                 type="button"
                 name={service.id}
+                className={chosenServices__item__deleteButton}
               >
-                <svg width={20} height={20}>
+                <svg className={chosenServices__item__deleteButtonIcon}>
                   <use href={sprite + '#cross'}></use>
                 </svg>
               </button>
