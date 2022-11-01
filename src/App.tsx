@@ -57,7 +57,6 @@ export const App: FC = (): JSX.Element => {
   };
 
   const buttonClickHandler = (e: MouseEvent<HTMLButtonElement>): void => {
-    console.log(e.target);
     const serviceId = (e.target as HTMLButtonElement).id;
     const remainingServices = services.filter(
       service => serviceId !== service.id
@@ -136,14 +135,14 @@ export const App: FC = (): JSX.Element => {
         </ul>
       )}
       {chosenServices.length > 0 && (
-        <ul>
-          <SelectedServices
-            chosenServices={chosenServices}
-            inputChangePriceHandler={inputChangePriceHandler}
-            inputValue={inputValue}
-            deleteButtonClickHandler={deleteButtonClickHandler}
-          />
-        </ul>
+        // <ul>
+        <SelectedServices
+          chosenServices={chosenServices}
+          inputChangePriceHandler={inputChangePriceHandler}
+          inputValue={inputValue}
+          deleteButtonClickHandler={deleteButtonClickHandler}
+        />
+        // </ul>
       )}
       {/* <Bill chosenServices={chosenServices} prices={prices} /> */}
       <ServicesDiscount chosenServices={chosenServices} prices={prices} />

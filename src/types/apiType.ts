@@ -32,6 +32,8 @@ export interface IBillProps {
   prices: IPrice;
   servicesForDiscount: IPriceWithDiscount[];
   getPriceForTotal: (res: number) => void;
+  deleteDiscountId: string;
+  resetDeleteDiscountId: () => void;
 }
 
 // export interface IDiscountType {
@@ -49,4 +51,5 @@ export interface IDiscountPrices {
 
 export interface IDiscountBlockProps {
   pricesWithDiscount: IPriceWithDiscount[];
+  getIdToDeleteDiscount: (res: string) => void;
 }

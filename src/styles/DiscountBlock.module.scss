@@ -1,0 +1,35 @@
+.discounts__block {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(237, 235, 235);
+  padding: 15px;
+}
+
+.discounts__title {
+  margin: 0 0 10px 0;
+}
+
+.discounts__text {
+  margin-left: 5px;
+}
+
+.service__item__block {
+  display: flex;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.services__item__deleteButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.services__item__deleteButtonIcon {
+  width: 18px;
+  height: 18px;
+}

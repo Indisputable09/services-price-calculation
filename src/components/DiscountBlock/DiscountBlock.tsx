@@ -1,26 +1,52 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import { IDiscountBlockProps } from '../../types/apiType';
+import sprite from '../../Icons/svg/sprite.svg';
+import styles from '../../styles/DiscountBlock.module.scss';
+
+const {
+  services__item__deleteButton,
+  services__item__deleteButtonIcon,
+  service__item__block,
+  discounts__block,
+  discounts__text,
+  discounts__title,
+} = styles;
 
 const DiscountBlock: FC<IDiscountBlockProps> = ({
   pricesWithDiscount,
+  getIdToDeleteDiscount,
 }): JSX.Element => {
+  const deleteDiscountHandler = (e: MouseEvent<HTMLButtonElement>) => {
+    const id = (e.currentTarget as HTMLButtonElement).name;
+    getIdToDeleteDiscount(id);
+  };
+
   return (
-    <>
-      <h2>Discount</h2>
+    <div className={discounts__block}>
+      <h4 className={discounts__title}>Discount</h4>
       <ul>
         {pricesWithDiscount &&
           pricesWithDiscount.map(item => {
             return (
-              <li key={item.name}>
-                <p>
-                  {item.name} {item.discountValue}
-                  {item.discount_type}
+              <li key={item.name} className={service__item__block}>
+                <button
+                  type="button"
+                  name={item.id + ''}
+                  onClick={deleteDiscountHandler}
+                  className={services__item__deleteButton}
+                >
+                  <svg className={services__item__deleteButtonIcon}>
+                    <use href={sprite + '#cross'}></use>
+                  </svg>
+                </button>
+                <p className={discounts__text}>
+                  {item.name} {item.discountValue} {item.discount_type}
                 </p>
               </li>
             );
           })}
       </ul>
-    </>
+    </div>
   );
 };
 

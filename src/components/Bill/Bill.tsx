@@ -20,6 +20,8 @@ const Bill: FC<IBillProps> = ({
   prices,
   servicesForDiscount,
   getPriceForTotal,
+  deleteDiscountId,
+  resetDeleteDiscountId,
 }): JSX.Element => {
   const [pricesWithDiscount, setPricesWithDiscount] = useState<IDiscountPrices>(
     {}
@@ -52,19 +54,9 @@ const Bill: FC<IBillProps> = ({
   useEffect(() => {
     const servicesWithDiscount = servicesForDiscount.filter(item => {
       const chosenService = chosenServices.filter(service => {
-        console.log('service', service);
-        console.log('item', item);
-        // if (!service || !item) {
-        //   return false;
-        // }
-        if (service.id === item.id) {
-          return service.id === item.id;
-        } else {
-          return service;
-        }
+        return service.id === item.id;
       });
-      console.log('chosenService', chosenService);
-      if (chosenService) {
+      if (chosenService.length > 0) {
         return item.id === chosenService[0].id;
       } else {
         return false;
@@ -92,12 +84,22 @@ const Bill: FC<IBillProps> = ({
   }, [chosenServices, prices, servicesForDiscount]);
 
   useEffect(() => {
+    if (deleteDiscountId) {
+      delete pricesWithDiscount[deleteDiscountId];
+      resetDeleteDiscountId();
+      setPricesWithDiscount(pricesWithDiscount);
+    }
     const values = Object.values(pricesWithDiscount);
     const result = values.reduce((acc, value) => {
       return (acc += value);
     }, 0);
     getPriceForTotal(result);
-  }, [getPriceForTotal, pricesWithDiscount]);
+  }, [
+    deleteDiscountId,
+    getPriceForTotal,
+    pricesWithDiscount,
+    resetDeleteDiscountId,
+  ]);
 
   return (
     <div className={bill__block}>
@@ -106,16 +108,7 @@ const Bill: FC<IBillProps> = ({
         {chosenServices.map((service: IService): JSX.Element => {
           return (
             <li key={service.id} className={bill__block__item}>
-              <p>
-                {service.name}{' '}
-                {/* <p>{prices[service.id] === 0 ? 0 : prices[service.id]} USD</p>{' '} */}
-                {/* {servicesForDiscount &&
-                  servicesForDiscount
-                    .filter(item => item.id === service.id)
-                    .map(item => {
-                      return handleDiscountCount(item);
-                    })} */}
-              </p>
+              <p>{service.name}</p>
               <div className={bill__price__block}>
                 <p className={bill__price__noDiscount}>
                   {prices[service.id] === 0 ? 0 : prices[service.id]} USD

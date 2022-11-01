@@ -6,7 +6,20 @@ import {
 } from '../../types/apiType';
 import Bill from '../Bill';
 import DiscountBlock from '../DiscountBlock';
-// import ServicesList from '../ServicesList';
+import styles from '../../styles/ServicesDiscount.module.scss';
+
+const {
+  inputs__block,
+  chooseService__input,
+  chooseDiscount__input,
+  chooseDiscount__block,
+  discount__button,
+  discount__button__list,
+  discount__button__item,
+  serviceForDiscount__button,
+  apply__button,
+  totalWithoutDiscount,
+} = styles;
 
 const ServicesDiscount: FC<IServiceDiscountProps> = ({
   chosenServices,
@@ -27,6 +40,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   const [servicesWithDiscount, setServicesWithDiscount] = useState<
     IPriceWithDiscount[]
   >([]);
+  const [deleteDiscountId, setDeleteDiscountId] = useState<string>('');
 
   useEffect(() => {
     const values = Object.values(prices);
@@ -37,7 +51,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   }, [prices, chosenServices]);
 
   useEffect(() => {
-    const test = chosenServices.filter(service => {
+    const servicesForDiscountList = chosenServices.filter(service => {
       const [serviceToRemove] = servicesWithDiscount.filter(item => {
         return item.name === service.name;
       });
@@ -46,7 +60,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
       }
       return service.name !== serviceToRemove.name;
     });
-    setServicesForDiscount(test);
+    setServicesForDiscount(servicesForDiscountList);
   }, [chosenServices, servicesWithDiscount]);
 
   const handleShowDiscountBlockClick = (): void => {
@@ -75,6 +89,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   };
 
   const handleDiscountTypeClick = (e: MouseEvent<HTMLButtonElement>): void => {
+    // (e.target as HTMLButtonElement).classList.add('active');
     setDiscountType((e.target as HTMLButtonElement).name);
   };
 
@@ -100,6 +115,20 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     setTotal(res);
   };
 
+  const getIdToDeleteDiscount = (res: string): void => {
+    setDeleteDiscountId(res);
+    const result = servicesWithDiscount.filter(service => {
+      return service.id !== res;
+    });
+    // console.log('result', result);
+    setServicesWithDiscount(result);
+    // setDeleteDiscountId('');
+  };
+
+  const resetDeleteDiscountId = () => {
+    setDeleteDiscountId('');
+  };
+
   return (
     <>
       {chosenServices.length > 0 && (
@@ -109,50 +138,75 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
             prices={prices}
             servicesForDiscount={servicesWithDiscount}
             getPriceForTotal={getPriceForTotal}
+            deleteDiscountId={deleteDiscountId}
+            resetDeleteDiscountId={resetDeleteDiscountId}
           />
-          <h2>Add Discount</h2>
+          <label onClick={handleShowDiscountBlockClick}>Add Discount</label>
           {servicesWithDiscount.length > 0 && (
-            <DiscountBlock pricesWithDiscount={servicesWithDiscount} />
+            <DiscountBlock
+              pricesWithDiscount={servicesWithDiscount}
+              getIdToDeleteDiscount={getIdToDeleteDiscount}
+            />
           )}
-          <button type="button" onClick={handleShowDiscountBlockClick}>
-            Add
-          </button>
         </>
       )}
+
       {showDiscountsBlock && (
-        <input
-          type="text"
-          id="services-for-discount"
-          name="services-for-discount"
-          placeholder="Choose a service"
-          readOnly
-          value={discountServiceTitle}
-          {...inputEventsHandler}
-        />
+        <div className={inputs__block}>
+          <input
+            className={chooseService__input}
+            type="text"
+            id="services-for-discount"
+            name="services-for-discount"
+            placeholder="Choose a service"
+            readOnly
+            value={discountServiceTitle}
+            {...inputEventsHandler}
+          />
+          {/* )} */}
+          <div className={chooseDiscount__block}>
+            <input
+              className={chooseDiscount__input}
+              type="text"
+              id="discount"
+              name="discount"
+              placeholder="0"
+              value={discountValue}
+              onChange={handleInputChange}
+            />
+            <ul className={discount__button__list}>
+              <li className={discount__button__item}>
+                <button
+                  type="button"
+                  name="USD"
+                  onClick={handleDiscountTypeClick}
+                  className={discount__button}
+                >
+                  $
+                </button>
+              </li>
+              <li className={discount__button__item}>
+                <button
+                  type="button"
+                  name="%"
+                  onClick={handleDiscountTypeClick}
+                  className={discount__button}
+                >
+                  %
+                </button>
+              </li>
+            </ul>
+            {/* <b>{discountType}</b> */}
+          </div>
+        </div>
       )}
-      <div>
-        <input
-          type="text"
-          id="discount"
-          name="discount"
-          placeholder="0"
-          value={discountValue}
-          onChange={handleInputChange}
-        />
-        <button type="button" name="USD" onClick={handleDiscountTypeClick}>
-          USD
-        </button>
-        <button type="button" name="%" onClick={handleDiscountTypeClick}>
-          %
-        </button>
-        <b>{discountType}</b>
-      </div>
-      {showServicesForDiscount && (
+      {showServicesForDiscount && showDiscountsBlock && (
         <ul>
           {servicesForDiscount.map((service: IService) => {
             return (
               <li key={service.id}>
                 <button
+                  className={serviceForDiscount__button}
                   onClick={handleServiceForDiscountClick}
                   type="button"
                   name={service.name}
@@ -165,11 +219,15 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           })}
         </ul>
       )}
-      <button type="button" onClick={handleApplyClick}>
+      <button
+        type="button"
+        onClick={handleApplyClick}
+        className={apply__button}
+      >
         Apply discount
       </button>
-      <p>Sum: {sum}</p>
-      <p>Total: {total}</p>
+      <p className={totalWithoutDiscount}>Without discount: {sum} USD</p>
+      <p>Total with discount: {total} USD</p>
     </>
   );
 };

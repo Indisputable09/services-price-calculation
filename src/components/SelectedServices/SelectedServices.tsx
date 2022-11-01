@@ -23,41 +23,43 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
   return (
     <div className={chosenServices__block}>
       <h4 className={services__text}>Client's services</h4>
-      {chosenServices.map((service: IService) => {
-        return (
-          <li key={service.id} className={chosenServices__item}>
-            <div className={chosenServices__item__block}>
-              <button
-                onClick={deleteButtonClickHandler}
-                type="button"
-                name={service.id}
-                className={chosenServices__item__deleteButton}
-              >
-                <svg className={chosenServices__item__deleteButtonIcon}>
-                  <use href={sprite + '#cross'}></use>
-                </svg>
-              </button>
-              <p className={chosenServices__item__serviceName}>
-                {service.name}
-              </p>
-            </div>
+      <ul>
+        {chosenServices.map((service: IService) => {
+          return (
+            <li key={service.id} className={chosenServices__item}>
+              <div className={chosenServices__item__block}>
+                <button
+                  onClick={deleteButtonClickHandler}
+                  type="button"
+                  name={service.id}
+                  className={chosenServices__item__deleteButton}
+                >
+                  <svg className={chosenServices__item__deleteButtonIcon}>
+                    <use href={sprite + '#cross'}></use>
+                  </svg>
+                </button>
+                <p className={chosenServices__item__serviceName}>
+                  {service.name}
+                </p>
+              </div>
 
-            <div className={chosenServices__item__block}>
-              <p>Price, USD</p>
-              <input
-                className={chosenServices__item__input}
-                name={service.id}
-                type="number"
-                // placeholder="0"
-                value={
-                  inputValue[service.id] === 0 ? '' : inputValue[service.id]
-                }
-                onChange={inputChangePriceHandler}
-              />
-            </div>
-          </li>
-        );
-      })}
+              <div className={chosenServices__item__block}>
+                <p>Price, USD</p>
+                <input
+                  className={chosenServices__item__input}
+                  name={service.id}
+                  type="number"
+                  // placeholder="0"
+                  value={
+                    inputValue[service.id] === 0 ? '' : inputValue[service.id]
+                  }
+                  onChange={inputChangePriceHandler}
+                />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 };
