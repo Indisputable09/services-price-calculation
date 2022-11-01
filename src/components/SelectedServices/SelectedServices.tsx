@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { ISelectedServicesProps, IService } from '../../types/apiType';
 import styles from '../../styles/SelectedServices.module.scss';
+import sprite from '../../Icons/svg/sprite.svg';
 
 const {
   services__text,
@@ -29,7 +30,9 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
                 type="button"
                 name={service.id}
               >
-                Delete
+                <svg width={20} height={20}>
+                  <use href={sprite + '#cross'}></use>
+                </svg>
               </button>
               <p className={chosenServices__item__serviceName}>
                 {service.name}

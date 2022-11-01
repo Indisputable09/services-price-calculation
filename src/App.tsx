@@ -6,8 +6,14 @@ import ServicesList from './components/ServicesList';
 import { fetchServices } from './services/API';
 import { IPrice, IService } from './types/apiType';
 import styles from './styles/App.module.scss';
+import sprite from './Icons/svg/sprite.svg';
 
-const { container, services__input, services__label } = styles;
+const {
+  container,
+  services__input,
+  services__label,
+  services__label__arrowIcon,
+} = styles;
 
 export const App: FC = (): JSX.Element => {
   const [services, setServices] = useState<IService[]>([]);
@@ -22,7 +28,6 @@ export const App: FC = (): JSX.Element => {
         const result = await fetchServices();
         (result as IService[]).map((service: IService) => {
           const prices = { [service.id]: service.price };
-          // return prices;
           return setInputValue(prevState => {
             return {
               ...prevState,
@@ -38,16 +43,21 @@ export const App: FC = (): JSX.Element => {
     getServices();
   }, []);
 
+  const containerClickHandler = (e: MouseEvent<HTMLElement>) => {
+    if (
+      (e.target as HTMLButtonElement).name !== 'service-list-button' &&
+      (e.target as HTMLInputElement).id !== 'services'
+    ) {
+      setShowServicesList(false);
+    }
+  };
+
   const inputEventsHandler = {
     onFocus: (): void => setShowServicesList(true),
-    // onBlur: () => setShowServicesList(false),
-    // onChange: (e: ChangeEvent<HTMLInputElement>): void => {
-    //   console.log(e.target.value);
-    //   console.log(e.target);
-    // },
   };
 
   const buttonClickHandler = (e: MouseEvent<HTMLButtonElement>): void => {
+    console.log(e.target);
     const serviceId = (e.target as HTMLButtonElement).id;
     const remainingServices = services.filter(
       service => serviceId !== service.id
@@ -105,18 +115,21 @@ export const App: FC = (): JSX.Element => {
   };
 
   return (
-    <div className={container}>
+    <div className={container} onClick={containerClickHandler}>
       <label htmlFor="services" className={services__label}>
         Add service
+        <input
+          className={services__input}
+          type="text"
+          id="services"
+          name="services"
+          placeholder="Choose a service"
+          {...inputEventsHandler}
+        />
+        <svg className={services__label__arrowIcon}>
+          <use href={sprite + '#triangle-down'}></use>
+        </svg>
       </label>
-      <input
-        className={services__input}
-        type="text"
-        id="services"
-        name="services"
-        placeholder="Choose a service"
-        {...inputEventsHandler}
-      />
 
       {showServicesList && (
         <ul>

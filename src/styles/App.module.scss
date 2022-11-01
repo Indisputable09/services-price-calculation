@@ -15,6 +15,7 @@
   border: 1px solid black;
   border-radius: 5px;
   outline: none;
+  margin-top: 10px;
 
   &:focus {
     border: 2px solid black;
@@ -24,7 +25,6 @@
 .services__label {
   position: relative;
   display: block;
-  margin-bottom: 10px;
   &::after {
     display: block;
     position: absolute;
@@ -35,5 +35,19 @@
     height: 29px;
     border-left: 0.5px solid black;
     z-index: 2;
+  }
+}
+
+.services__label__arrowIcon {
+  position: absolute;
+  top: 33px;
+  right: 3px;
+  width: 24px;
+  height: 20px;
+  z-index: 3;
+  transition: transform 300ms linear;
+
+  .services__input:focus + & {
+    transform: rotate(180deg);
   }
 }
