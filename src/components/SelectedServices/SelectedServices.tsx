@@ -22,7 +22,7 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
 }): JSX.Element => {
   return (
     <div className={chosenServices__block}>
-      <p className={services__text}>Client's services</p>
+      <h4 className={services__text}>Client's services</h4>
       {chosenServices.map((service: IService) => {
         return (
           <li key={service.id} className={chosenServices__item}>
@@ -48,6 +48,7 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
                 className={chosenServices__item__input}
                 name={service.id}
                 type="number"
+                // placeholder="0"
                 value={
                   inputValue[service.id] === 0 ? '' : inputValue[service.id]
                 }

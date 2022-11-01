@@ -79,10 +79,6 @@ export const App: FC = (): JSX.Element => {
     const value: number = +e.target.value;
     const name: string = e.target.name;
 
-    // const neededService = chosenServices.find(service => {
-    //   return service.id === name;
-    // });
-
     setPrices(prevValue => {
       return {
         ...prevValue,

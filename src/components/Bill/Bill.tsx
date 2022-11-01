@@ -5,6 +5,15 @@ import {
   IPriceWithDiscount,
   IService,
 } from '../../types/apiType';
+import styles from '../../styles/Bill.module.scss';
+
+const {
+  bill_block,
+  bill_text,
+  bill_block_item,
+  bill_price_block,
+  bill_price_nodiscount,
+} = styles;
 
 const Bill: FC<IBillProps> = ({
   chosenServices,
@@ -25,26 +34,36 @@ const Bill: FC<IBillProps> = ({
     const resultWithPercent =
       Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
     const resultWithCurrency = Number(prices[id]) - Number(discountValue);
-    const percentDiscount = `${discount_type}(${
+    const percentDiscount = `${discount_type} (${
       (Number(prices[id]) * Number(discountValue)) / 100
-    } USD) = ${resultWithPercent || resultWithPercent.toFixed(2)}`;
-    const currencyDiscount = `= ${
+    } USD) = ${resultWithPercent || resultWithPercent.toFixed(2)} USD`;
+    const currencyDiscount = ` ${discount_type} = ${
       resultWithCurrency || resultWithCurrency.toFixed(2)
-    }`;
+    } USD`;
 
     return (
-      <span key={name}>
-        -{discountValue}{' '}
+      <p key={name}>
+        -{discountValue}
         {discount_type === '%' ? `${percentDiscount}` : `${currencyDiscount}`}
-      </span>
+      </p>
     );
   };
 
   useEffect(() => {
     const servicesWithDiscount = servicesForDiscount.filter(item => {
       const chosenService = chosenServices.filter(service => {
-        return service.id === item.id;
+        console.log('service', service);
+        console.log('item', item);
+        // if (!service || !item) {
+        //   return false;
+        // }
+        if (service.id === item.id) {
+          return service.id === item.id;
+        } else {
+          return service;
+        }
       });
+      console.log('chosenService', chosenService);
       if (chosenService) {
         return item.id === chosenService[0].id;
       } else {
@@ -81,27 +100,38 @@ const Bill: FC<IBillProps> = ({
   }, [getPriceForTotal, pricesWithDiscount]);
 
   return (
-    <>
-      <h2>Bill</h2>
+    <div className={bill_block}>
+      <h4 className={bill_text}>Bill</h4>
       <ul>
         {chosenServices.map((service: IService): JSX.Element => {
           return (
-            <li key={service.id}>
+            <li key={service.id} className={bill_block_item}>
               <p>
                 {service.name}{' '}
-                <span>{prices[service.id] === 0 ? 0 : prices[service.id]}</span>{' '}
+                {/* <p>{prices[service.id] === 0 ? 0 : prices[service.id]} USD</p>{' '} */}
+                {/* {servicesForDiscount &&
+                  servicesForDiscount
+                    .filter(item => item.id === service.id)
+                    .map(item => {
+                      return handleDiscountCount(item);
+                    })} */}
+              </p>
+              <div className={bill_price_block}>
+                <p className={bill_price_nodiscount}>
+                  {prices[service.id] === 0 ? 0 : prices[service.id]} USD
+                </p>
                 {servicesForDiscount &&
                   servicesForDiscount
                     .filter(item => item.id === service.id)
                     .map(item => {
                       return handleDiscountCount(item);
                     })}
-              </p>
+              </div>
             </li>
           );
         })}
       </ul>
-    </>
+    </div>
   );
 };
 
