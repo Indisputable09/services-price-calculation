@@ -1,10 +1,5 @@
 import { ChangeEvent, MouseEvent } from 'react';
-
-export interface IService {
-  name: string;
-  price: number;
-  id: string;
-}
+import { IPrice, IPriceWithDiscount, IService } from './servicesTypes';
 
 export interface ISelectedServicesProps {
   chosenServices: IService[];
@@ -16,10 +11,6 @@ export interface ISelectedServicesProps {
 export interface IServicesListProps {
   services: IService[];
   buttonClickHandler?: (e: MouseEvent<HTMLButtonElement>) => void;
-}
-
-export interface IPrice {
-  [key: number]: number;
 }
 
 export interface IServiceDiscountProps {
@@ -34,19 +25,6 @@ export interface IBillProps {
   getPriceForTotal: (res: number) => void;
   deleteDiscountId: string;
   resetDeleteDiscountId: () => void;
-}
-
-// export interface IDiscountType {
-//   discountType: string;
-//   [key: string]: number;
-// }
-
-export interface IPriceWithDiscount {
-  [key: string]: number | string;
-}
-
-export interface IDiscountPrices {
-  [key: string]: number;
 }
 
 export interface IDiscountBlockProps {

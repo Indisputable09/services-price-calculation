@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { IService, IServicesListProps } from '../../types/apiType';
+import { IService } from '../../types/servicesTypes';
+import { IServicesListProps } from '../../types/propTypes';
 import styles from '../../styles/ServicesList.module.scss';
 
 const { servicesList__button } = styles;

@@ -1,9 +1,6 @@
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
-import {
-  IPriceWithDiscount,
-  IService,
-  IServiceDiscountProps,
-} from '../../types/apiType';
+import { IPriceWithDiscount, IService } from '../../types/servicesTypes';
+import { IServiceDiscountProps } from '../../types/propTypes';
 import Bill from '../Bill';
 import DiscountBlock from '../DiscountBlock';
 import styles from '../../styles/ServicesDiscount.module.scss';
@@ -219,10 +216,12 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
           })}
         </ul>
       )}
+
       <button
         type="button"
         onClick={handleApplyClick}
         className={apply__button}
+        disabled={!discountType || !discountValue || !discountServiceTitle}
       >
         Apply discount
       </button>

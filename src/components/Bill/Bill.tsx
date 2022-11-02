@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import {
-  IBillProps,
   IDiscountPrices,
   IPriceWithDiscount,
   IService,
-} from '../../types/apiType';
+} from '../../types/servicesTypes';
+import { IBillProps } from '../../types/propTypes';
 import styles from '../../styles/Bill.module.scss';
 
 const {

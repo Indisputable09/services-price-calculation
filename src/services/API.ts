@@ -1,4 +1,4 @@
-import { IService } from '../types/apiType';
+import { IService } from '../types/servicesTypes';
 
 // const BASE_URL = 'https://634d92dbf5d2cc648ea98ce0.mockapi.io/';
 

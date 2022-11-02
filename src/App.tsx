@@ -4,7 +4,7 @@ import SelectedServices from './components/SelectedServices';
 import ServicesDiscount from './components/ServicesDiscount';
 import ServicesList from './components/ServicesList';
 import { fetchServices } from './services/API';
-import { IPrice, IService } from './types/apiType';
+import { IPrice, IService } from './types/servicesTypes';
 import styles from './styles/App.module.scss';
 import sprite from './Icons/svg/sprite.svg';
 

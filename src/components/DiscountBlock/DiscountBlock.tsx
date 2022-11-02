@@ -1,5 +1,5 @@
 import { FC, MouseEvent } from 'react';
-import { IDiscountBlockProps } from '../../types/apiType';
+import { IDiscountBlockProps } from '../../types/propTypes';
 import sprite from '../../Icons/svg/sprite.svg';
 import styles from '../../styles/DiscountBlock.module.scss';
 
