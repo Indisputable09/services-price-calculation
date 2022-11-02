@@ -38,6 +38,8 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     IPriceWithDiscount[]
   >([]);
   const [deleteDiscountId, setDeleteDiscountId] = useState<string>('');
+  // console.log('discountServiceId', discountServiceId);
+  // console.log('servicesForDiscount', servicesForDiscount);
 
   useEffect(() => {
     const values = Object.values(prices);
@@ -79,6 +81,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
       alert('Please enter a number');
       return;
     }
+    // console.log('discountType ', discountType);
     setDiscountValue(+(e.target as HTMLInputElement).value);
   };
 
@@ -96,6 +99,21 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   };
 
   const handleApplyClick = (): void => {
+    const chosenServiceForDiscount = servicesForDiscount.find(
+      service => service.id === discountServiceId
+    );
+
+    // if (chosenServiceForDiscount) {
+    if (
+      (discountType === '%' && discountValue > 100) ||
+      (discountType === 'USD' &&
+        discountValue > chosenServiceForDiscount!.price)
+    ) {
+      alert('Discount cannot be more than 100% of price');
+      return;
+    }
+    // }
+    console.log('chosenServiceForDiscount', chosenServiceForDiscount);
     setServicesWithDiscount(prevState => {
       return [
         ...prevState,
@@ -173,9 +191,9 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
               id="discount"
               name="discount"
               placeholder="0"
+              max="99"
               value={discountValue}
               onChange={handleInputChange}
-              pattern="[0-9]+"
             />
             <ul className={discount__button__list}>
               <li className={discount__button__item}>
@@ -199,7 +217,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
                 </button>
               </li>
             </ul>
-            {/* <b>{discountType}</b> */}
           </div>
         </div>
       )}
@@ -228,11 +245,14 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
         onClick={handleApplyClick}
         className={apply__button}
         disabled={!discountType || !discountValue || !discountServiceTitle}
+        // disabled={discountType === '%' && discountValue > 100}
       >
         Apply discount
       </button>
       <p className={totalWithoutDiscount}>Without discount: {sum} USD</p>
-      <p>Total with discount: {total} USD</p>
+      <p>
+        Total with discount: {servicesWithDiscount.length > 0 ? total : sum} USD
+      </p>
     </>
   );
 };

@@ -69,6 +69,7 @@ const Bill: FC<IBillProps> = ({
       const resultWithPercent =
         Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
       const resultWithCurrency = Number(prices[id]) - Number(discountValue);
+
       switch (discount_type) {
         case '%':
           setPricesWithDiscount(prevState => {
