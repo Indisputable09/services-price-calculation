@@ -22,7 +22,7 @@ export interface IBillProps {
   chosenServices: IService[];
   prices: IPrice;
   servicesForDiscount: IPriceWithDiscount[];
-  getPriceForTotal: (res: number) => void;
+  getPriceForTotalDiscount: (res: number) => void;
   deleteDiscountId: string;
   resetDeleteDiscountId: () => void;
 }

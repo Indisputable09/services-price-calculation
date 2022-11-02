@@ -19,7 +19,7 @@ const Bill: FC<IBillProps> = ({
   chosenServices,
   prices,
   servicesForDiscount,
-  getPriceForTotal,
+  getPriceForTotalDiscount,
   deleteDiscountId,
   resetDeleteDiscountId,
 }): JSX.Element => {
@@ -66,21 +66,36 @@ const Bill: FC<IBillProps> = ({
       return;
     }
     servicesWithDiscount.forEach(({ id, discountValue, discount_type }) => {
-      const resultWithPercent =
-        Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
+      // const resultWithPercent =
+      //   Number(prices[id]) - (Number(prices[id]) * Number(discountValue)) / 100;
       const resultWithCurrency = Number(prices[id]) - Number(discountValue);
+      const percentDiscount =
+        (Number(prices[id]) * Number(discountValue)) / 100;
+      const currencyDiscount = resultWithCurrency;
 
       switch (discount_type) {
         case '%':
           setPricesWithDiscount(prevState => {
-            return { ...prevState, [id]: +resultWithPercent.toFixed(2) };
+            return { ...prevState, [id]: +percentDiscount.toFixed(2) };
           });
           break;
         default:
           setPricesWithDiscount(prevState => {
-            return { ...prevState, [id]: +resultWithCurrency.toFixed(2) };
+            return { ...prevState, [id]: +currencyDiscount.toFixed(2) };
           });
       }
+
+      // switch (discount_type) {
+      //   case '%':
+      //     setPricesWithDiscount(prevState => {
+      //       return { ...prevState, [id]: +resultWithPercent.toFixed(2) };
+      //     });
+      //     break;
+      //   default:
+      //     setPricesWithDiscount(prevState => {
+      //       return { ...prevState, [id]: +resultWithCurrency.toFixed(2) };
+      //     });
+      // }
     });
   }, [chosenServices, prices, servicesForDiscount]);
 
@@ -94,10 +109,10 @@ const Bill: FC<IBillProps> = ({
     const result = values.reduce((acc, value) => {
       return (acc += value);
     }, 0);
-    getPriceForTotal(result);
+    getPriceForTotalDiscount(result);
   }, [
     deleteDiscountId,
-    getPriceForTotal,
+    getPriceForTotalDiscount,
     pricesWithDiscount,
     resetDeleteDiscountId,
   ]);

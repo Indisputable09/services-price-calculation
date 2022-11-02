@@ -23,7 +23,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   prices,
 }): JSX.Element => {
   const [sum, setSum] = useState<number>(0);
-  const [total, setTotal] = useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = useState<number>(0);
   const [showDiscountsBlock, setShowDiscountsBlock] = useState<boolean>(false);
   const [servicesForDiscount, setServicesForDiscount] = useState<IService[]>(
     []
@@ -131,8 +131,8 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     setDiscountType('');
   };
 
-  const getPriceForTotal = (res: number): void => {
-    setTotal(res);
+  const getPriceForTotalDiscount = (res: number): void => {
+    setTotalDiscount(res);
   };
 
   const getIdToDeleteDiscount = (res: string): void => {
@@ -157,7 +157,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
             chosenServices={chosenServices}
             prices={prices}
             servicesForDiscount={servicesWithDiscount}
-            getPriceForTotal={getPriceForTotal}
+            getPriceForTotalDiscount={getPriceForTotalDiscount}
             deleteDiscountId={deleteDiscountId}
             resetDeleteDiscountId={resetDeleteDiscountId}
           />
@@ -245,14 +245,11 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
         onClick={handleApplyClick}
         className={apply__button}
         disabled={!discountType || !discountValue || !discountServiceTitle}
-        // disabled={discountType === '%' && discountValue > 100}
       >
         Apply discount
       </button>
       <p className={totalWithoutDiscount}>Without discount: {sum} USD</p>
-      <p>
-        Total with discount: {servicesWithDiscount.length > 0 ? total : sum} USD
-      </p>
+      <p>Total with discount: {sum - totalDiscount} USD</p>
     </>
   );
 };
