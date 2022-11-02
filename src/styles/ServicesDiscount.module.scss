@@ -66,9 +66,9 @@
     background-color: rgb(225, 224, 224);
   }
 
-  //   & .active {
-  //     background-color: rgb(225, 224, 224);
-  //   }
+  &.active {
+    background-color: rgb(225, 224, 224);
+  }
 }
 
 .serviceForDiscount__button {
@@ -97,9 +97,16 @@
   margin-bottom: 10px;
   margin-top: 10px;
 
+  &[disabled] {
+    background-color: grey;
+    cursor: auto;
+  }
+
   &:hover,
   &:focus {
-    transform: scale(1.1);
+    &:not([disabled]) {
+      transform: scale(1.1);
+    }
   }
 }
 

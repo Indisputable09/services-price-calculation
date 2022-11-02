@@ -16,6 +16,7 @@ const {
   serviceForDiscount__button,
   apply__button,
   totalWithoutDiscount,
+  active,
 } = styles;
 
 const ServicesDiscount: FC<IServiceDiscountProps> = ({
@@ -201,7 +202,11 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
                   type="button"
                   name="USD"
                   onClick={handleDiscountTypeClick}
-                  className={discount__button}
+                  className={
+                    discountType === 'USD'
+                      ? `${discount__button} ${active}`
+                      : discount__button
+                  }
                 >
                   $
                 </button>
@@ -211,7 +216,11 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
                   type="button"
                   name="%"
                   onClick={handleDiscountTypeClick}
-                  className={discount__button}
+                  className={
+                    discountType === '%'
+                      ? `${discount__button} ${active}`
+                      : discount__button
+                  }
                 >
                   %
                 </button>
