@@ -1,4 +1,3 @@
-// import Services from './components/Services';
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
 import SelectedServices from './components/SelectedServices';
 import ServicesDiscount from './components/ServicesDiscount';
@@ -13,6 +12,9 @@ const {
   services__input,
   services__label,
   services__label__arrowIcon,
+  searchServices__block,
+  arrow__button,
+  active,
 } = styles;
 
 export const App: FC = (): JSX.Element => {
@@ -42,15 +44,6 @@ export const App: FC = (): JSX.Element => {
     }
     getServices();
   }, []);
-
-  const containerClickHandler = (e: MouseEvent<HTMLElement>) => {
-    if (
-      (e.target as HTMLButtonElement).name !== 'service-list-button' &&
-      (e.target as HTMLInputElement).id !== 'services'
-    ) {
-      setShowServicesList(false);
-    }
-  };
 
   const inputEventsHandler = {
     onFocus: (): void => setShowServicesList(true),
@@ -114,10 +107,25 @@ export const App: FC = (): JSX.Element => {
     setChosenServices(remainingServices);
   };
 
+  const arrowButtonClickHandler = () => {
+    setShowServicesList(!showServicesList);
+  };
+
   return (
-    <div className={container} onClick={containerClickHandler}>
-      <label htmlFor="services" className={services__label}>
-        Add service
+    <div className={container}>
+      <div className={searchServices__block}>
+        <label
+          // htmlFor="services"
+          className={services__label}
+          onClick={arrowButtonClickHandler}
+        >
+          <svg width={18} height={18}>
+            <use
+              href={showServicesList ? sprite + '#cross' : sprite + '#plus'}
+            ></use>
+          </svg>
+          Add service
+        </label>
         <input
           className={services__input}
           type="text"
@@ -126,10 +134,27 @@ export const App: FC = (): JSX.Element => {
           placeholder="Choose a service"
           {...inputEventsHandler}
         />
-        <svg className={services__label__arrowIcon}>
+        {/* <svg className={services__label__arrowIcon}>
           <use href={sprite + '#triangle-down'}></use>
-        </svg>
-      </label>
+        </svg> */}
+        {/* </label> */}
+        <button
+          name="arrow-button"
+          onClick={arrowButtonClickHandler}
+          type="button"
+          className={arrow__button}
+        >
+          <svg
+            className={
+              showServicesList
+                ? `${services__label__arrowIcon} ${active}`
+                : services__label__arrowIcon
+            }
+          >
+            <use href={sprite + '#triangle-down'}></use>
+          </svg>
+        </button>
+      </div>
 
       {showServicesList && (
         <ul>

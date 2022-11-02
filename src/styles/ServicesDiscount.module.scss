@@ -3,6 +3,13 @@
 //   margin-bottom: 10px;
 // }
 
+.addDiscount__label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  cursor: pointer;
+}
+
 .inputs__block {
   display: flex;
   gap: 20px;

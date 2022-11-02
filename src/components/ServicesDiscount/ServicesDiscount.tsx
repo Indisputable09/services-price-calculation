@@ -4,6 +4,7 @@ import { IServiceDiscountProps } from '../../types/propTypes';
 import Bill from '../Bill';
 import DiscountBlock from '../DiscountBlock';
 import styles from '../../styles/ServicesDiscount.module.scss';
+import sprite from '../../Icons/svg/sprite.svg';
 
 const {
   inputs__block,
@@ -17,6 +18,7 @@ const {
   apply__button,
   totalWithoutDiscount,
   active,
+  addDiscount__label,
 } = styles;
 
 const ServicesDiscount: FC<IServiceDiscountProps> = ({
@@ -63,7 +65,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     setServicesForDiscount(servicesForDiscountList);
   }, [chosenServices, servicesWithDiscount]);
 
-  const handleShowDiscountBlockClick = (): void => {
+  const handleShowDiscountsBlockClick = (): void => {
     setShowDiscountsBlock(!showDiscountsBlock);
   };
 
@@ -162,7 +164,17 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
             deleteDiscountId={deleteDiscountId}
             resetDeleteDiscountId={resetDeleteDiscountId}
           />
-          <label onClick={handleShowDiscountBlockClick}>Add Discount</label>
+          <label
+            onClick={handleShowDiscountsBlockClick}
+            className={addDiscount__label}
+          >
+            <svg width={18} height={18}>
+              <use
+                href={showDiscountsBlock ? sprite + '#cross' : sprite + '#plus'}
+              ></use>
+            </svg>
+            Add Discount
+          </label>
           {servicesWithDiscount.length > 0 && (
             <DiscountBlock
               pricesWithDiscount={servicesWithDiscount}
