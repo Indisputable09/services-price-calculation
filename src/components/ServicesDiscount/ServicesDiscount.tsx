@@ -74,6 +74,11 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = +(e.target as HTMLInputElement).value;
+    if (isNaN(value)) {
+      alert('Please enter a number');
+      return;
+    }
     setDiscountValue(+(e.target as HTMLInputElement).value);
   };
 
@@ -170,6 +175,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
               placeholder="0"
               value={discountValue}
               onChange={handleInputChange}
+              pattern="[0-9]+"
             />
             <ul className={discount__button__list}>
               <li className={discount__button__item}>
