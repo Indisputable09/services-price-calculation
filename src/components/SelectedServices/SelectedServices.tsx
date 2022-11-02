@@ -49,10 +49,10 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
                 <input
                   className={chosenServices__item__input}
                   name={service.id}
-                  type="number"
+                  type="text"
                   // placeholder="0"
                   value={
-                    inputValue[service.id] === 0 ? '' : inputValue[service.id]
+                    inputValue[service.id] === 0 ? 0 : inputValue[service.id]
                   }
                   onChange={inputChangePriceHandler}
                 />

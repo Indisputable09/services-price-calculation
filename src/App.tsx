@@ -78,6 +78,11 @@ export const App: FC = (): JSX.Element => {
     const value: number = +e.target.value;
     const name: string = e.target.name;
 
+    if (isNaN(value)) {
+      alert('Please enter a number');
+      return;
+    }
+
     setPrices(prevValue => {
       return {
         ...prevValue,
