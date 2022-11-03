@@ -80,7 +80,7 @@ export const App: FC = (): JSX.Element => {
   };
 
   const handleChangeFilter = (e: ChangeEvent<HTMLInputElement>): void => {
-    setFilter(e.target.value);
+    setFilter((e.target as HTMLInputElement).value);
   };
 
   const createFilter = () => {
