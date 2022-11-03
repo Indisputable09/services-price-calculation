@@ -31,3 +31,8 @@ export interface IDiscountBlockProps {
   pricesWithDiscount: IPriceWithDiscount[];
   getIdToDeleteDiscount: (res: string) => void;
 }
+
+export interface ISearchServicesProps {
+  showServicesList: boolean;
+  setShowServicesList: (e: boolean) => void;
+}

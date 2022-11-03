@@ -1,21 +1,13 @@
 import { ChangeEvent, FC, MouseEvent, useEffect, useState } from 'react';
+import { fetchServices } from './services/API';
 import SelectedServices from './components/SelectedServices';
 import ServicesDiscount from './components/ServicesDiscount';
 import ServicesList from './components/ServicesList';
-import { fetchServices } from './services/API';
 import { IPrice, IService } from './types/servicesTypes';
 import styles from './styles/App.module.scss';
-import sprite from './Icons/svg/sprite.svg';
+import SearchServices from './components/SearchServices';
 
-const {
-  container,
-  services__input,
-  services__label,
-  services__label__arrowIcon,
-  searchServices__block,
-  arrow__button,
-  active,
-} = styles;
+const { container } = styles;
 
 export const App: FC = (): JSX.Element => {
   const [services, setServices] = useState<IService[]>([]);
@@ -45,11 +37,9 @@ export const App: FC = (): JSX.Element => {
     getServices();
   }, []);
 
-  const inputEventsHandler = {
-    onFocus: (): void => setShowServicesList(true),
-  };
-
-  const buttonClickHandler = (e: MouseEvent<HTMLButtonElement>): void => {
+  const serviceButtonClickHandler = (
+    e: MouseEvent<HTMLButtonElement>
+  ): void => {
     const serviceId = (e.target as HTMLButtonElement).id;
     const remainingServices = services.filter(
       service => serviceId !== service.id
@@ -97,8 +87,6 @@ export const App: FC = (): JSX.Element => {
       service => service.id !== id
     );
     const deletedService = chosenServices.filter(service => service.id === id);
-    // const remainingPrices = delete prices[deletedService[0].id];
-    // console.log('remainingPrices', remainingPrices);
     const pricesKey = deletedService[0].id;
     delete prices[pricesKey];
     setServices(prevValue => {
@@ -107,74 +95,28 @@ export const App: FC = (): JSX.Element => {
     setChosenServices(remainingServices);
   };
 
-  const arrowButtonClickHandler = () => {
-    setShowServicesList(!showServicesList);
-  };
-
   return (
     <div className={container}>
-      <div className={searchServices__block}>
-        <label
-          // htmlFor="services"
-          className={services__label}
-          onClick={arrowButtonClickHandler}
-        >
-          <svg width={18} height={18}>
-            <use
-              href={showServicesList ? sprite + '#cross' : sprite + '#plus'}
-            ></use>
-          </svg>
-          Add service
-        </label>
-        <input
-          className={services__input}
-          type="text"
-          id="services"
-          name="services"
-          placeholder="Choose a service"
-          {...inputEventsHandler}
-        />
-        {/* <svg className={services__label__arrowIcon}>
-          <use href={sprite + '#triangle-down'}></use>
-        </svg> */}
-        {/* </label> */}
-        <button
-          name="arrow-button"
-          onClick={arrowButtonClickHandler}
-          type="button"
-          className={arrow__button}
-        >
-          <svg
-            className={
-              showServicesList
-                ? `${services__label__arrowIcon} ${active}`
-                : services__label__arrowIcon
-            }
-          >
-            <use href={sprite + '#triangle-down'}></use>
-          </svg>
-        </button>
-      </div>
-
+      <SearchServices
+        showServicesList={showServicesList}
+        setShowServicesList={setShowServicesList}
+      />
       {showServicesList && (
         <ul>
           <ServicesList
             services={services}
-            buttonClickHandler={buttonClickHandler}
+            buttonClickHandler={serviceButtonClickHandler}
           />
         </ul>
       )}
       {chosenServices.length > 0 && (
-        // <ul>
         <SelectedServices
           chosenServices={chosenServices}
           inputChangePriceHandler={inputChangePriceHandler}
           inputValue={inputValue}
           deleteButtonClickHandler={deleteButtonClickHandler}
         />
-        // </ul>
       )}
-      {/* <Bill chosenServices={chosenServices} prices={prices} /> */}
       <ServicesDiscount chosenServices={chosenServices} prices={prices} />
     </div>
   );
