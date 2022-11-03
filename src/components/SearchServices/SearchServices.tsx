@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import styles from '../../styles/SearchServices.module.scss';
 import sprite from '../../Icons/svg/sprite.svg';
 import { ISearchServicesProps } from '../../types/propTypes';
@@ -15,14 +15,18 @@ const {
 const SearchServices: FC<ISearchServicesProps> = ({
   showServicesList,
   setShowServicesList,
+  handleChangeFilter,
+  value,
 }): JSX.Element => {
   const inputEventsHandler = {
     onFocus: (): void => setShowServicesList(true),
+    onChange: (e: ChangeEvent<HTMLInputElement>): void => handleChangeFilter(e),
   };
 
   const arrowButtonClickHandler = (): void => {
     setShowServicesList(!showServicesList);
   };
+
   return (
     <div className={searchServices__block}>
       <label className={services__label} onClick={arrowButtonClickHandler}>
@@ -39,6 +43,7 @@ const SearchServices: FC<ISearchServicesProps> = ({
         id="services"
         name="services"
         placeholder="Choose a service"
+        value={value}
         {...inputEventsHandler}
       />
       <button

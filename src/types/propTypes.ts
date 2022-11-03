@@ -35,6 +35,8 @@ export interface IDiscountBlockProps {
 export interface ISearchServicesProps {
   showServicesList: boolean;
   setShowServicesList: (e: boolean) => void;
+  handleChangeFilter: (e: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 }
 
 export interface IAddDiscountProps {

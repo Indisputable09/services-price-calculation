@@ -14,6 +14,7 @@ export const App: FC = (): JSX.Element => {
   const [chosenServices, setChosenServices] = useState<IService[]>([]);
   const [showServicesList, setShowServicesList] = useState<boolean>(false);
   const [prices, setPrices] = useState<IPrice>({});
+  const [filter, setFilter] = useState<string>('');
 
   useEffect(() => {
     async function getServices(): Promise<void> {
@@ -78,16 +79,32 @@ export const App: FC = (): JSX.Element => {
     setChosenServices(remainingServices);
   };
 
+  const handleChangeFilter = (e: ChangeEvent<HTMLInputElement>): void => {
+    setFilter(e.target.value);
+  };
+
+  const createFilter = () => {
+    const normalizedFilterValue = filter.toLocaleLowerCase();
+    const filteredServices = services.filter(service =>
+      service.name.toLocaleLowerCase().includes(normalizedFilterValue)
+    );
+    return filteredServices;
+  };
+
+  const filteredServices = createFilter();
+
   return (
     <div className={container}>
       <SearchServices
         showServicesList={showServicesList}
         setShowServicesList={setShowServicesList}
+        handleChangeFilter={handleChangeFilter}
+        value={filter}
       />
       {showServicesList && (
         <ul>
           <ServicesList
-            services={services}
+            services={filteredServices}
             buttonClickHandler={serviceButtonClickHandler}
           />
         </ul>
