@@ -25,7 +25,7 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
     <div className={chosenServices__block}>
       <h4 className={services__text}>Client's services</h4>
       <ul>
-        {chosenServices.map((service: IService) => {
+        {chosenServices.map((service: IService): JSX.Element => {
           return (
             <li key={service.id} className={chosenServices__item}>
               <div className={chosenServices__item__block}>
@@ -50,10 +50,7 @@ const SelectedServices: FC<ISelectedServicesProps> = ({
                   className={chosenServices__item__input}
                   name={service.id}
                   type="text"
-                  // placeholder="0"
-                  value={
-                    inputValue[service.id] === 0 ? 0 : inputValue[service.id]
-                  }
+                  value={inputValue[service.id]}
                   onChange={inputChangePriceHandler}
                 />
               </div>

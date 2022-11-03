@@ -12,7 +12,6 @@ const { container } = styles;
 export const App: FC = (): JSX.Element => {
   const [services, setServices] = useState<IService[]>([]);
   const [chosenServices, setChosenServices] = useState<IService[]>([]);
-  const [inputValue, setInputValue] = useState<IPrice>({});
   const [showServicesList, setShowServicesList] = useState<boolean>(false);
   const [prices, setPrices] = useState<IPrice>({});
 
@@ -20,15 +19,6 @@ export const App: FC = (): JSX.Element => {
     async function getServices(): Promise<void> {
       try {
         const result = await fetchServices();
-        (result as IService[]).map((service: IService) => {
-          const prices = { [service.id]: service.price };
-          return setInputValue(prevState => {
-            return {
-              ...prevState,
-              ...prices,
-            };
-          });
-        });
         setServices(result as IService[]);
       } catch (error: any) {
         console.error(error.message);
@@ -72,13 +62,6 @@ export const App: FC = (): JSX.Element => {
         [name]: value,
       };
     });
-
-    setInputValue(prevValue => {
-      return {
-        ...prevValue,
-        [name]: value,
-      };
-    });
   };
 
   const deleteButtonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
@@ -113,7 +96,7 @@ export const App: FC = (): JSX.Element => {
         <SelectedServices
           chosenServices={chosenServices}
           inputChangePriceHandler={inputChangePriceHandler}
-          inputValue={inputValue}
+          inputValue={prices}
           deleteButtonClickHandler={deleteButtonClickHandler}
         />
       )}

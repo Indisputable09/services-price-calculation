@@ -36,3 +36,31 @@ export interface ISearchServicesProps {
   showServicesList: boolean;
   setShowServicesList: (e: boolean) => void;
 }
+
+export interface IAddDiscountProps {
+  handleShowDiscountsBlockClick: () => void;
+  showDiscountsBlock: boolean;
+}
+
+export interface IDiscountSetBlock {
+  discountServiceTitle: string;
+  handleServicesForDiscountInputFocus: () => void;
+  discountValue: number;
+  handleDiscountValueInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleDiscountTypeClick: (e: MouseEvent<HTMLButtonElement>) => void;
+  discountType: string;
+}
+
+export interface IServicesForDiscountListProps {
+  servicesForDiscount: IService[];
+  handleServiceForDiscountClick: (e: MouseEvent<HTMLButtonElement>) => void;
+}
+
+export interface IApplyDiscount {
+  handleApplyClick: () => void;
+  discountType: string;
+  discountValue: number;
+  discountServiceTitle: string;
+  sum: number;
+  totalDiscount: number;
+}

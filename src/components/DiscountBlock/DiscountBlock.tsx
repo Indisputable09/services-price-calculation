@@ -26,12 +26,12 @@ const DiscountBlock: FC<IDiscountBlockProps> = ({
       <h4 className={discounts__title}>Discount</h4>
       <ul>
         {pricesWithDiscount &&
-          pricesWithDiscount.map(item => {
+          pricesWithDiscount.map((item): JSX.Element => {
             return (
               <li key={item.name} className={service__item__block}>
                 <button
                   type="button"
-                  name={item.id + ''}
+                  name={String(item.id)}
                   onClick={deleteDiscountHandler}
                   className={services__item__deleteButton}
                 >

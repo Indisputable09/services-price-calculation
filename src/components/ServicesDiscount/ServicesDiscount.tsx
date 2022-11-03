@@ -3,23 +3,10 @@ import { IPriceWithDiscount, IService } from '../../types/servicesTypes';
 import { IServiceDiscountProps } from '../../types/propTypes';
 import Bill from '../Bill';
 import DiscountBlock from '../DiscountBlock';
-import styles from '../../styles/ServicesDiscount.module.scss';
-import sprite from '../../Icons/svg/sprite.svg';
-
-const {
-  inputs__block,
-  chooseService__input,
-  chooseDiscount__input,
-  chooseDiscount__block,
-  discount__button,
-  discount__button__list,
-  discount__button__item,
-  serviceForDiscount__button,
-  apply__button,
-  totalWithoutDiscount,
-  active,
-  addDiscount__label,
-} = styles;
+import AddDiscount from '../AddDiscount';
+import DiscountSetBlock from '../DiscountSetBlock/DiscountSetBlock';
+import ServicesForDiscountList from '../ServicesForDiscountList';
+import ApplyDiscount from '../ApplyDiscount';
 
 const ServicesDiscount: FC<IServiceDiscountProps> = ({
   chosenServices,
@@ -41,8 +28,6 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     IPriceWithDiscount[]
   >([]);
   const [deleteDiscountId, setDeleteDiscountId] = useState<string>('');
-  // console.log('discountServiceId', discountServiceId);
-  // console.log('servicesForDiscount', servicesForDiscount);
 
   useEffect(() => {
     const values = Object.values(prices);
@@ -69,22 +54,18 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     setShowDiscountsBlock(!showDiscountsBlock);
   };
 
-  const inputEventsHandler = {
-    onFocus: (): void => setShowServicesForDiscount(true),
-    // onBlur: (): void => setShowServicesForDiscount(false),
-    // onChange: (e: ChangeEvent<HTMLInputElement>): void => {
-    //   console.log(e.target.value);
-    //   console.log(e.target);
-    // },
+  const handleServicesForDiscountInputFocus = (): void => {
+    setShowServicesForDiscount(true);
   };
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleDiscountValueInputChange = (
+    e: ChangeEvent<HTMLInputElement>
+  ): void => {
     const value = +(e.target as HTMLInputElement).value;
     if (isNaN(value)) {
       alert('Please enter a number');
       return;
     }
-    // console.log('discountType ', discountType);
     setDiscountValue(+(e.target as HTMLInputElement).value);
   };
 
@@ -97,26 +78,21 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
   };
 
   const handleDiscountTypeClick = (e: MouseEvent<HTMLButtonElement>): void => {
-    // (e.target as HTMLButtonElement).classList.add('active');
     setDiscountType((e.target as HTMLButtonElement).name);
   };
 
   const handleApplyClick = (): void => {
-    const chosenServiceForDiscount = servicesForDiscount.find(
-      service => service.id === discountServiceId
-    );
-
-    // if (chosenServiceForDiscount) {
-    if (
+    if (prices[discountServiceId] === 0) {
+      alert('You cannot apply discount to 0 USD price');
+      return;
+    } else if (
       (discountType === '%' && discountValue > 100) ||
-      (discountType === 'USD' &&
-        discountValue > chosenServiceForDiscount!.price)
+      (discountType === 'USD' && discountValue > prices[discountServiceId])
     ) {
-      alert('Discount cannot be more than 100% of price');
+      alert('Discount cannot be more than 100% of the price');
       return;
     }
-    // }
-    console.log('chosenServiceForDiscount', chosenServiceForDiscount);
+
     setServicesWithDiscount(prevState => {
       return [
         ...prevState,
@@ -143,9 +119,7 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
     const result = servicesWithDiscount.filter(service => {
       return service.id !== res;
     });
-    // console.log('result', result);
     setServicesWithDiscount(result);
-    // setDeleteDiscountId('');
   };
 
   const resetDeleteDiscountId = () => {
@@ -164,17 +138,10 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
             deleteDiscountId={deleteDiscountId}
             resetDeleteDiscountId={resetDeleteDiscountId}
           />
-          <label
-            onClick={handleShowDiscountsBlockClick}
-            className={addDiscount__label}
-          >
-            <svg width={18} height={18}>
-              <use
-                href={showDiscountsBlock ? sprite + '#cross' : sprite + '#plus'}
-              ></use>
-            </svg>
-            Add Discount
-          </label>
+          <AddDiscount
+            handleShowDiscountsBlockClick={handleShowDiscountsBlockClick}
+            showDiscountsBlock={showDiscountsBlock}
+          />
           {servicesWithDiscount.length > 0 && (
             <DiscountBlock
               pricesWithDiscount={servicesWithDiscount}
@@ -185,92 +152,31 @@ const ServicesDiscount: FC<IServiceDiscountProps> = ({
       )}
 
       {showDiscountsBlock && (
-        <div className={inputs__block}>
-          <input
-            className={chooseService__input}
-            type="text"
-            id="services-for-discount"
-            name="services-for-discount"
-            placeholder="Choose a service"
-            readOnly
-            value={discountServiceTitle}
-            {...inputEventsHandler}
-          />
-          {/* )} */}
-          <div className={chooseDiscount__block}>
-            <input
-              className={chooseDiscount__input}
-              type="text"
-              id="discount"
-              name="discount"
-              placeholder="0"
-              max="99"
-              value={discountValue}
-              onChange={handleInputChange}
-            />
-            <ul className={discount__button__list}>
-              <li className={discount__button__item}>
-                <button
-                  type="button"
-                  name="USD"
-                  onClick={handleDiscountTypeClick}
-                  className={
-                    discountType === 'USD'
-                      ? `${discount__button} ${active}`
-                      : discount__button
-                  }
-                >
-                  $
-                </button>
-              </li>
-              <li className={discount__button__item}>
-                <button
-                  type="button"
-                  name="%"
-                  onClick={handleDiscountTypeClick}
-                  className={
-                    discountType === '%'
-                      ? `${discount__button} ${active}`
-                      : discount__button
-                  }
-                >
-                  %
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <DiscountSetBlock
+          discountServiceTitle={discountServiceTitle}
+          handleServicesForDiscountInputFocus={
+            handleServicesForDiscountInputFocus
+          }
+          discountValue={discountValue}
+          handleDiscountValueInputChange={handleDiscountValueInputChange}
+          handleDiscountTypeClick={handleDiscountTypeClick}
+          discountType={discountType}
+        />
       )}
       {showServicesForDiscount && showDiscountsBlock && (
-        <ul>
-          {servicesForDiscount.map((service: IService) => {
-            return (
-              <li key={service.id}>
-                <button
-                  className={serviceForDiscount__button}
-                  onClick={handleServiceForDiscountClick}
-                  type="button"
-                  name={service.name}
-                  id={service.id}
-                >
-                  {service.name}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+        <ServicesForDiscountList
+          servicesForDiscount={servicesForDiscount}
+          handleServiceForDiscountClick={handleServiceForDiscountClick}
+        />
       )}
-
-      <button
-        type="button"
-        onClick={handleApplyClick}
-        className={apply__button}
-        disabled={!discountType || !discountValue || !discountServiceTitle}
-      >
-        Apply discount
-      </button>
-      <p className={totalWithoutDiscount}>Without discount: {sum} USD</p>
-      <p>Total with discount: {sum - totalDiscount} USD</p>
+      <ApplyDiscount
+        handleApplyClick={handleApplyClick}
+        discountType={discountType}
+        discountValue={discountValue}
+        discountServiceTitle={discountServiceTitle}
+        sum={sum}
+        totalDiscount={totalDiscount}
+      />
     </>
   );
 };

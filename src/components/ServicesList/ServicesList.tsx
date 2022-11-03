@@ -11,23 +11,24 @@ const ServicesList: FC<IServicesListProps> = ({
 }): JSX.Element => {
   return (
     <>
-      {services
-        .sort((a: IService, b: IService) => b.price - a.price)
-        .map((service: IService) => {
-          return (
-            <li key={service.id}>
-              <button
-                className={servicesList__button}
-                id={service.id}
-                type="button"
-                name="service-list-button"
-                onClick={buttonClickHandler}
-              >
-                {service.name}, {service.price} USD
-              </button>
-            </li>
-          );
-        })}
+      {services &&
+        services
+          .sort((a: IService, b: IService) => b.price - a.price)
+          .map((service: IService): JSX.Element => {
+            return (
+              <li key={service.id}>
+                <button
+                  className={servicesList__button}
+                  id={service.id}
+                  type="button"
+                  name="service-list-button"
+                  onClick={buttonClickHandler}
+                >
+                  {service.name}, {service.price} USD
+                </button>
+              </li>
+            );
+          })}
     </>
   );
 };

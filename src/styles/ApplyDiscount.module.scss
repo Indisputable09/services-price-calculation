@@ -1,0 +1,27 @@
+.apply__button {
+  display: block;
+  padding: 5px 10px;
+  background-color: rgb(121, 121, 244);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: transform 250ms linear;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+  &[disabled] {
+    background-color: grey;
+    cursor: auto;
+  }
+
+  &:hover,
+  &:focus {
+    &:not([disabled]) {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.totalWithoutDiscount {
+  margin-bottom: 10px;
+}
