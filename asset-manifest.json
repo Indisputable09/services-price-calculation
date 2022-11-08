@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/services-test-task/static/css/main.1aae451b.css",
-    "main.js": "/services-test-task/static/js/main.9c8408cc.js",
-    "static/media/sprite.svg": "/services-test-task/static/media/sprite.b63560f3b00a03f7f631ecea3e62a66e.svg",
-    "index.html": "/services-test-task/index.html",
-    "main.1aae451b.css.map": "/services-test-task/static/css/main.1aae451b.css.map",
-    "main.9c8408cc.js.map": "/services-test-task/static/js/main.9c8408cc.js.map"
+    "main.css": "/services-price-calculation/static/css/main.1aae451b.css",
+    "main.js": "/services-price-calculation/static/js/main.fa4946b5.js",
+    "static/media/sprite.svg": "/services-price-calculation/static/media/sprite.b63560f3b00a03f7f631ecea3e62a66e.svg",
+    "index.html": "/services-price-calculation/index.html",
+    "main.1aae451b.css.map": "/services-price-calculation/static/css/main.1aae451b.css.map",
+    "main.fa4946b5.js.map": "/services-price-calculation/static/js/main.fa4946b5.js.map"
   },
   "entrypoints": [
     "static/css/main.1aae451b.css",
-    "static/js/main.9c8408cc.js"
+    "static/js/main.fa4946b5.js"
   ]
 }
